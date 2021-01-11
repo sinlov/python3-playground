@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [scripts]
+main = "python main.py"
 test_main = "python -m unittest discover"
 
 [packages]
