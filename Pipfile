@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[scripts]
+test_main = "python -m unittest discover"
+
+[packages]
+requests = "*"
+
+[dev-packages]
+httpie = "*"
+
+[requires]
+python_version = "3.9"

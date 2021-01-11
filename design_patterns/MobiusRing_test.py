@@ -1,9 +1,9 @@
 import unittest
 
-from .design_patterns.mobius_ring_file import MobiusRing
+from design_patterns.MobiusRing import MobiusRing
 
 
-class MyTestCase(unittest.TestCase):
+class TestMobiusRing(unittest.TestCase):
     def test_something(self):
         MobiusRing().write_file('1.text', 'adadadad')
         MobiusRing().do()
