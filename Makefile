@@ -27,6 +27,9 @@ shell:
 	@echo "and will load environment file as .env"
 	pipenv shell
 
+dev:
+	pipenv run main
+
 utils:
 	node -v
 	npm -v
