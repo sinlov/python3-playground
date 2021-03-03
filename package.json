@@ -1,0 +1,18 @@
+{
+  "name": "python3-playground",
+  "version": "1.0.0",
+  "displayName": "python3 playground",
+  "description": "python3 playground",
+  "python": "3.9",
+  "dependencies": {},
+  "keywords": [
+    "python3",
+    "pipenv",
+    "playground"
+  ],
+  "author": {
+    "name": "sinlov",
+    "email": "sinlovgmppt@gmail.com",
+    "url": "https://github.com/sinlov/python3-playground"
+  }
+}
