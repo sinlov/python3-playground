@@ -1,0 +1,24 @@
+{
+  "name": "ci_lite",
+  "work_flows": [
+    {
+      "on": {
+        "git_repo": "",
+        "push": {
+          "branches": [
+            "main"
+          ]
+        }
+      },
+      "steps": [{
+
+      }]
+    }
+  ],
+  "schedule": {
+    "type": "each_time",
+    "args": {
+      "each_time": 60
+    }
+  }
+}
