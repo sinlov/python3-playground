@@ -9,6 +9,8 @@ test_main = "python -m unittest discover"
 
 [packages]
 requests = "*"
+urllib3 = ">=1.26.4"
+Pygments = ">=2.7.4"
 
 [dev-packages]
 httpie = "*"

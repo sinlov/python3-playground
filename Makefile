@@ -18,6 +18,11 @@ graph:
 init: graph
 	pipenv install --three
 
+dependencies:
+	pipenv check
+	-pipenv update
+	-pipenv lock
+
 shell:
 	@echo "-> in pipenv shell"
 	@echo " install runtime like: pipenv install requests"
