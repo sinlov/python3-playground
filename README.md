@@ -14,6 +14,14 @@
 pipenv install --three
 ```
 
+### want proxy of pipenv
+
+just make file `.env` at root of project
+
+```env
+PIPENV_PYPI_MIRROR=https://pypi.tuna.tsinghua.edu.cn/simple/
+```
+
 ### simple test run
 
 - code at [tests/test_main.py](tests/test_main.py)
