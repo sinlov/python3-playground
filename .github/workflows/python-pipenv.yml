@@ -20,11 +20,16 @@ jobs:
       uses: VaultVulp/action-pipenv@v2.0.1
       with:
         command: install --three -d # Install all dependencies, including development ones
+    - name: Run main
+      uses: VaultVulp/action-pipenv@v2.0.1
+      with:
+        command: run main # Run custom `test` command defined in the `[scripts]` block of Pipfile
+
     - name: pipenv sync dev
       uses: VaultVulp/action-pipenv@v2.0.1
       with:
         command: sync --dev # Install all dependencies as sync
-    - name: Test
+    - name: Run test_main
       uses: VaultVulp/action-pipenv@v2.0.1
       with:
-        command: run main # Run custom `test` command defined in the `[scripts]` block of Pipfile
+        command: run test_main # Run custom `test` command defined in the `[scripts]` block of unittest
