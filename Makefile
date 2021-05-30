@@ -12,11 +12,11 @@ env:
 	pipenv --version
 	pipenv check
 
+init:
+	pipenv install --three
+
 graph:
 	pipenv graph
-
-init: graph
-	pipenv install --three
 
 dependencies:
 	pipenv check
