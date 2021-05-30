@@ -14,9 +14,10 @@
 pipenv install --three
 ```
 
-### simple run
+### simple test run
+
+- code at [tests/test_main.py](tests/test_main.py)
 
 ```bash
 $ pipenv run test_main
 ```
-
