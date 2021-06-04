@@ -17,12 +17,13 @@ $ pipenv install --three --skip-lock --pypi-mirror https://pypi.tuna.tsinghua.ed
 
 # just into shell
 $ pipenv shell
-# install full depends
-$ pipenv sync --dev
 # lock dependencies
 $ pipenv lock
 # or use proxy
 $ pipenv lock --pypi-mirror https://pypi.tuna.tsinghua.edu.cn/simple
+
+# install full depends
+$ pipenv sync --dev
 ```
 
 ### want proxy of pipenv
