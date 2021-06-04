@@ -8,12 +8,21 @@ ENV_ROOT ?= $(shell pwd)
 ENV_MODULE_FOLDER ?= ${ENV_ROOT}
 ENV_MODULE_MANIFEST = ${ENV_ROOT}/package.json
 
+runMain:
+	pipenv run main
+
+runTest:
+	pipenv run test_main
+
 env:
 	pipenv --version
 	pipenv check
 
 init:
-	pipenv install --three
+	pipenv install --skip-lock --dev
+
+rmEnv:
+	pipenv --rm
 
 install:
 	pipenv sync --dev
@@ -23,10 +32,13 @@ graph:
 	pipenv graph
 
 dependencies:
-	-pipenv check
-	-pipenv update
-	-pipenv lock
+	-pipenv check --verbose
+	-pipenv lock --verbose
 
+dependenciesUpdate:
+	-pipenv check --clear
+	-pipenv update --outdated
+	-pipenv lock
 
 shell:
 	@echo "-> in pipenv shell"
@@ -36,9 +48,6 @@ shell:
 	@echo ""
 	@echo "and will load environment file as .env"
 	pipenv shell
-
-dev:
-	pipenv run main
 
 utils:
 	node -v
@@ -81,10 +90,13 @@ help:
 	@echo "------    ------"
 	@echo ""
 	@echo "$$ make init                     ~> init this project"
+	@echo "$$ make rmEnv                    ~> remove pipenv environment"
 	@echo "$$ make env                      ~> show env of this project"
 	@echo "$$ make graph                    ~> show graph of this project"
 	@echo "$$ make shell                    ~> into shell, out use exit or ctrl-D"
 	@echo ""
+	@echo "$$ make runMain                  ~> pipenv run main"
+	@echo "$$ make runTest                  ~> pipenv run test_main"
 
 all:
 	@echo "~> start base info"

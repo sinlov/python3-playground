@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "displayName": "python3 playground",
   "description": "python3 playground",
-  "python": "3.9",
+  "python": "3.9.5",
   "dependencies": {},
   "keywords": [
     "python3",
