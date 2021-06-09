@@ -4,8 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [scripts]
+# run script at main method
 main = "python main.py"
+run_cil_temp = "python cli_utils/py-cli-temp.py --help"
+
+# unit test as unittest
 test_main = "python -m unittest discover"
+tests_module_target = "python -m unittest tests"
+tests_some_file = "python -m unittest discover -s tests -p test_*.py" # -s [folder] -p [file]
+tests_file_target = "python -m unittest tests/test_main.py" # only python3
+
 
 [packages]
 requests = "*"
