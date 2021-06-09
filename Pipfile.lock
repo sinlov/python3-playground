@@ -82,11 +82,11 @@
         },
         "faker": {
             "hashes": [
-                "sha256:37c7460f5535e62e563169c1689116e35af7391615a54cb8535d9c0e6c5dfdc9",
-                "sha256:adaf9bb2f2f1176d3aa802cf5b76971f6c18289522e1990c330986d5596ed2ef"
+                "sha256:69febb4db797d2c463e5bd56263aa0068c99480ace3beeb6ba0e14bf82d46607",
+                "sha256:8f2800605b55cbf92d30c1a9db2cc11d0bfb200732590f597603a7789a43f5f4"
             ],
             "index": "pypi",
-            "version": "==8.5.0"
+            "version": "==8.6.0"
         },
         "httpie": {
             "hashes": [
