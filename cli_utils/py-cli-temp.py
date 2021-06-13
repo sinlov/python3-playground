@@ -62,8 +62,9 @@ This script must run python 3.7.+
             os.mkdir(log_path)
         if not os.path.exists(log_path):
             return False
-        log_file = os.path.join('logs', 'log_{0}.log'.format(tag))
-        handler = logging.handlers.RotatingFileHandler(log_file, maxBytes=1024 * 1024, backupCount=5)
+        log_file = os.path.join('logs', 'log-{0}.log'.format(tag))
+        handler = logging.handlers.RotatingFileHandler(
+            filename=log_file, maxBytes=1024 * 1024, backupCount=5)
         fmt = '%(asctime)s %(levelname)s %(name)s %(filename)s - %(message)s'
         formatter = logging.Formatter(fmt)
         handler.setFormatter(formatter)
@@ -141,6 +142,13 @@ This script must run python 3.7.+
     @staticmethod
     def log(msg, lev=str, must=False):
         # type: (str, str, bool) -> None
+        """
+        log only out std
+        :param msg: log message
+        :param lev: i d w e a
+        :param must: default False
+        :return: any
+        """
         if not PLog._is_sys_windows():
             if PLog._is_no_color:
                 print('%s' % msg)
@@ -170,6 +178,13 @@ This script must run python 3.7.+
     @staticmethod
     def log_writer(msg, lev=str, must=False):
         # type: (str, str, bool) -> None
+        """
+        log out std and log file
+        :param msg: log message
+        :param lev: i d w e a
+        :param must: default False
+        :return: any
+        """
         PLog.log(msg, lev, must)
         if PLog._logger is None:
             return
@@ -307,7 +322,7 @@ if __name__ == '__main__':
         PLog.set_verbose(options.v_verbose)
     # --no-log
     if not options.no_log:
-        PLog.init_logger(PLog.find_now_time_format('%Y_%m_%d_%H_%M_%S'))
+        PLog.init_logger(PLog.find_now_time_format('%Y-%m-%d-%H_%M_%S'))
     # --no-color
     if options.no_color:
         PLog.set_no_color(options.no_color)
