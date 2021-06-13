@@ -40,6 +40,9 @@ dependenciesUpdate:
 	-pipenv update --outdated
 	-pipenv lock
 
+tasks:
+	pipenv scripts
+
 shell:
 	@echo "-> in pipenv shell"
 	@echo " install runtime like: pipenv install requests"
