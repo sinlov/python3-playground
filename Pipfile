@@ -13,6 +13,7 @@ test_main = "python -m unittest discover"
 tests_module_target = "python -m unittest tests"
 tests_some_file = "python -m unittest discover -s tests -p test_*.py" # -s [folder] -p [file]
 tests_file_target = "python -m unittest tests/test_main.py" # only python3
+tests_binary_tool = "python -m unittest discover -s tests/binary_tool -p test_*.py" # -s [folder] -p [file]
 
 
 [packages]
