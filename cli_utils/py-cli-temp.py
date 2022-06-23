@@ -302,6 +302,10 @@ more information see script code.
     def args(self):
         return self.args
 
+    def check_args_len(self, must_size=1):
+        if len(self.args) < must_size:
+            print('warning args input error {0}'.format(OptDefClass.enter_error_info))
+
     def verification(self):
         if not self.options.f_targetFile or not self.options.c_clean:
             exit('ERROR!must support --clean and --targetFile parameters!')
@@ -309,11 +313,9 @@ more information see script code.
 
 if __name__ == '__main__':
     PLog.check_runtime()
-    if len(sys.argv) < 2:
-        PLog.log(OptDefClass.enter_error_info, 'e', True)
-        exit(1)
 
     opt = OptDefClass()
+    opt.check_args_len()
     opt.verification()
 
     options = opt.opt()
