@@ -65,7 +65,8 @@ This script must run python 3.7.+
         log_file = os.path.join('logs', 'log-{0}.log'.format(tag))
         handler = logging.handlers.RotatingFileHandler(
             filename=log_file, maxBytes=1024 * 1024, backupCount=5)
-        fmt = '%(asctime)s %(levelname)s %(name)s %(filename)s - %(message)s'
+        # fmt = '%(asctime)s %(levelname)s %(name)s %(filename)s - %(message)s'
+        fmt = '%(asctime)s %(levelname)s %(name)s - %(message)s'
         formatter = logging.Formatter(fmt)
         handler.setFormatter(formatter)
         PLog._logger = logging.getLogger(getpass.getuser())
@@ -213,6 +214,22 @@ This script must run python 3.7.+
                 if PLog._is_verbose or must:
                     PLog._logger.info(msg)
 
+    @staticmethod
+    def info(msg, must=False):
+        PLog.log_writer(msg, 'i', must)
+
+    @staticmethod
+    def debug(msg, must=False):
+        PLog.log_writer(msg, 'd', must)
+
+    @staticmethod
+    def warning(msg, must=False):
+        PLog.log_writer(msg, 'w', must)
+
+    @staticmethod
+    def error(msg, must=False):
+        PLog.log_writer(msg, 'e', must)
+
 
 class Exec:
 
@@ -268,8 +285,8 @@ more information see script code.
     msg_interrupt_generate = r'generate interrupt, if you want to continue use --force'
 
     def __init__(self):
-        self.options = None
-        self.args = None
+        self._parse_options = None
+        self._parse_args = None
         self_parser = optparse.OptionParser('\n\t%prog' + ' -h\n\t%prog -v -c\n' + OptDefClass.hint_help_info)
         self_parser.add_option('-v', dest='v_verbose', action="store_true",
                                help="[-|+] see verbose",
@@ -290,24 +307,28 @@ more information see script code.
                                help="config file default is config.json",
                                default="",
                                metavar="config.json")
-        self.options, self.args = self_parser.parse_args()
+        self._parse_options, self._parse_args = self_parser.parse_args()
 
     def this_script_name(self):
         # type: () -> str
         return self.cwd_script_file_name
 
     def opt(self):
-        return self.options
+        return self._parse_options
 
     def args(self):
-        return self.args
+        return self._parse_args
 
-    def check_args_len(self, must_size=1):
-        if len(self.args) < must_size:
-            print('warning args input error {0}'.format(OptDefClass.enter_error_info))
+    def check_args_size_not_zero(self):
+        if len(self._parse_args) == 0:
+            print(
+                'Error input args size is zero {0}'.format(
+                    OptDefClass.enter_error_info)
+            )
+            raise Exception()
 
     def verification(self):
-        if not self.options.f_targetFile or not self.options.c_clean:
+        if not self._parse_options.f_targetFile or not self._parse_options.c_clean:
             exit('ERROR!must support --clean and --targetFile parameters!')
 
 
@@ -315,7 +336,7 @@ if __name__ == '__main__':
     PLog.check_runtime()
 
     opt = OptDefClass()
-    opt.check_args_len()
+    opt.check_args_size_not_zero()
     opt.verification()
 
     options = opt.opt()

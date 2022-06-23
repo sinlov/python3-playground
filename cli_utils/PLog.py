@@ -58,7 +58,8 @@ This script must run python 3.7.+
             return False
         log_file = os.path.join('logs', 'log_{0}.log'.format(tag))
         handler = logging.handlers.RotatingFileHandler(log_file, maxBytes=1024 * 1024, backupCount=5)
-        fmt = '%(asctime)s %(levelname)s %(name)s %(filename)s - %(message)s'
+        # fmt = '%(asctime)s %(levelname)s %(name)s %(filename)s - %(message)s'
+        fmt = '%(asctime)s %(levelname)s %(name)s - %(message)s'
         formatter = logging.Formatter(fmt)
         handler.setFormatter(formatter)
         PLog._logger = logging.getLogger(getpass.getuser())
@@ -191,3 +192,19 @@ This script must run python 3.7.+
             else:
                 if PLog._is_verbose or must:
                     PLog._logger.info(msg)
+
+    @staticmethod
+    def info(msg, must=False):
+        PLog.log_writer(msg, 'i', must)
+
+    @staticmethod
+    def debug(msg, must=False):
+        PLog.log_writer(msg, 'd', must)
+
+    @staticmethod
+    def warning(msg, must=False):
+        PLog.log_writer(msg, 'w', must)
+
+    @staticmethod
+    def error(msg, must=False):
+        PLog.log_writer(msg, 'e', must)

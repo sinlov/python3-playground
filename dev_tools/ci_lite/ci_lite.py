@@ -62,9 +62,11 @@ This script must run python 3.7.+
             os.mkdir(log_path)
         if not os.path.exists(log_path):
             return False
-        log_file = os.path.join('logs', 'log_{0}.log'.format(tag))
-        handler = logging.handlers.RotatingFileHandler(log_file, maxBytes=1024 * 1024, backupCount=5)
-        fmt = '%(asctime)s %(levelname)s %(name)s %(filename)s - %(message)s'
+        log_file = os.path.join('logs', 'log-{0}.log'.format(tag))
+        handler = logging.handlers.RotatingFileHandler(
+            filename=log_file, maxBytes=1024 * 1024, backupCount=5)
+        # fmt = '%(asctime)s %(levelname)s %(name)s %(filename)s - %(message)s'
+        fmt = '%(asctime)s %(levelname)s %(name)s - %(message)s'
         formatter = logging.Formatter(fmt)
         handler.setFormatter(formatter)
         PLog._logger = logging.getLogger(getpass.getuser())
@@ -141,6 +143,13 @@ This script must run python 3.7.+
     @staticmethod
     def log(msg, lev=str, must=False):
         # type: (str, str, bool) -> None
+        """
+        log only out std
+        :param msg: log message
+        :param lev: i d w e a
+        :param must: default False
+        :return: any
+        """
         if not PLog._is_sys_windows():
             if PLog._is_no_color:
                 print('%s' % msg)
@@ -170,6 +179,13 @@ This script must run python 3.7.+
     @staticmethod
     def log_writer(msg, lev=str, must=False):
         # type: (str, str, bool) -> None
+        """
+        log out std and log file
+        :param msg: log message
+        :param lev: i d w e a
+        :param must: default False
+        :return: any
+        """
         PLog.log(msg, lev, must)
         if PLog._logger is None:
             return
@@ -197,6 +213,22 @@ This script must run python 3.7.+
             else:
                 if PLog._is_verbose or must:
                     PLog._logger.info(msg)
+
+    @staticmethod
+    def info(msg, must=False):
+        PLog.log_writer(msg, 'i', must)
+
+    @staticmethod
+    def debug(msg, must=False):
+        PLog.log_writer(msg, 'd', must)
+
+    @staticmethod
+    def warning(msg, must=False):
+        PLog.log_writer(msg, 'w', must)
+
+    @staticmethod
+    def error(msg, must=False):
+        PLog.log_writer(msg, 'e', must)
 
 
 class Exec:
