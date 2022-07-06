@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+
+
+
+
+	<integer name="crop_image_id">10</integer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<string name="crop_images_pick_error">无效的图片</string>
+
+
+	<string name="crop_images_saving">正在保存照片…</string>
+
+
+	<string name="crop_images_pick_error_mark">無效的圖片</string>
+
+
+	<string name="crop_images_pick_error_mark_again">无效的图片</string>
+
+
+	<string name="crop_images_wait">请等待…</string>
+
+
+</resources>

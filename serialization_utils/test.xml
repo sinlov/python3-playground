@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <color name="dinner_btn_blue_pressed">#2298DA</color>
+    <color name="dinner_dark_333">#333333</color>
+    <color name="dinner_gray_222">#222222</color>
+    <color name="semi_transparent">#50000000</color>
+    <color name="titlemanager_dark_gray_222">#222222</color>
+    <dimen name="shop_cart_btn_txt">17sp</dimen>
+    <string name="accepted_str">接受</string>
+    <string name="add_dl_text">大类</string>
+    <string name="add_fenl_text">分类</string>
+    <string name="add_qy_text">区域</string>
+    <string name="add_subclass_text">子类</string>
+</resources>
