@@ -20,6 +20,7 @@ tests_binary_tool = "python -m unittest discover -s tests/binary_tool -p test_*.
 requests = "*"
 urllib3 = ">=1.26.5"
 Pygments = ">=2.7.4"
+gevent = "==21.12.0"
 psutil = "==5.9.1"
 
 [dev-packages]
