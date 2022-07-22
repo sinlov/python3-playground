@@ -15,11 +15,16 @@ class PyTimerTests(unittest.TestCase):
         print(time.time(), 'time up', 'class %s name %s' % (self.cnt, name))
         self.cnt += 1
 
+    def on_py_timer_stop(self, pytimer):
+        print(time.time(), 'on_py_timer_stop')
+        pass
+
     def test_simple_once(self):
         self.py_timer = PyTimer(self.do_simple_timer, 'foo')
-        self.py_timer.start(interval=1, once=False)
+        self.py_timer.on_stop = self.on_py_timer_stop
+        self.py_timer.run_forever(interval=1, once=False)
 
-        input('enter return\n')
+        # input('enter return\n')
 
         self.assertEqual(True, True)  # add assertion here
 

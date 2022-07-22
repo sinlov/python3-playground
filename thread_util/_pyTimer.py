@@ -1,13 +1,42 @@
 import time
 import threading
+from . import _logging
 
 
 class PyTimer:
+    on_stop = None
+    """
+    on_stop: function
+            Callback object which is called when we get error.
+            on_error has 1 arguments.
+            The 1st argument is this class object.
+    """
+
+    on_error = None
+    """
+    on_error: function
+            Callback object which is called when we get error.
+            on_error has 2 arguments.
+            The 1st argument is this class object.
+            The 2nd argument is exception object.
+    """
+
     def __init__(self, func, *args, **kwargs):
         self.func = func
         self.args = args
         self.kwargs = kwargs
+        self.main_th = None
         self.running = False
+        self.keep_running = False
+
+    def _callback(self, callback, *args):
+        if callback:
+            try:
+                callback(self, *args)
+            except Exception as e:
+                _logging.error("error from callback {}: {}".format(callback, e))
+                if self.on_error:
+                    self.on_error(self, e)
 
     def _run_func(self):
         """
@@ -59,8 +88,19 @@ class PyTimer:
         th.setDaemon(True)
         th.start()
 
+    def run_forever(self, interval, once=False):
+        self.keep_running = True
+        self.main_th = threading.Thread(target=self._start, args=(interval, once))
+        self.main_th.setDaemon(True)
+        self.main_th.start()
+        self.main_th.join()
+
     def stop(self):
         """
         stop timer
         """
         self.running = False
+        if self.main_th and self.main_th.is_alive():
+            self.keep_running = False
+        if self.on_stop:
+            self._callback(self.on_stop)
