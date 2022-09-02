@@ -6,12 +6,15 @@
 
 ## env
 
-- run on [python pipenv](https://pypi.org/project/pipenv/) 
+- run on [python pipenv](https://pypi.org/project/pipenv/)
 
 ## dev
 
 ```bash
 $ pipenv install --three --skip-lock
+# or use proxy
+$ pipenv install --pypi-mirror https://pypi.tuna.tsinghua.edu.cn/simple/
+
 $ pipenv lock
 # or use proxy
 $ pipenv lock --pypi-mirror https://pypi.tuna.tsinghua.edu.cn/simple
