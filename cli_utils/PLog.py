@@ -1,17 +1,38 @@
-# -*- coding: utf-8 -*-
-
 __author__ = 'sinlov'
 
-import getpass
-import os
-import platform
 import sys
-import time
+import platform
 import logging
 import logging.handlers
+import time
+import getpass
+import os
 
 
 class PLog:
+    """
+    init Plog like this
+    ----------
+    PLog.check_runtime()
+
+    PLog.set_verbose(False) # will close [ debug info ] log
+
+    PLog.set_no_color(False) # not use color
+
+    PLog.init_logger(PLog.find_now_time_format('%Y-%m-%d-%H_%M_%S')) # init log file by time
+
+    then use like
+    ----------
+
+    PLog.info()
+
+    PLog.debug()
+
+    PLog.warning()
+
+    PLog.error()
+    """
+
     def __init__(self):
         pass
 
@@ -34,6 +55,11 @@ This script must run python 3.7.+
 
     @staticmethod
     def check_runtime():
+        """
+        check runtime must python 3.7+
+
+        :return: check error will exit
+        """
         PLog.log('Python version %s' % platform.python_version(), 'd')
         version_split = platform.python_version().split('.')
         if version_split[0] != '3':
@@ -49,15 +75,28 @@ This script must run python 3.7.+
         return time.strftime(format_time, time.localtime(time.time()))
 
     @staticmethod
-    def init_logger(tag=str, level=logging.DEBUG):
-        # type: (str, any) -> bool
-        log_path = os.path.join(os.getcwd(), 'logs')
+    def init_logger(tag=str, log_dir='logs', prefix='plog', postfix='log', level=logging.DEBUG):
+        # type: (str, str,str, str, any) ->  logging.Logger | None
+        """
+        init log file like
+
+        PLog.init_logger(PLog.find_now_time_format('%Y-%m-%d-%H_%M_%S'))
+
+        :param tag: log tag, most use time format
+        :param log_dir: log file save folder, default: logs
+        :param prefix: log file prefix, default is: plog
+        :param postfix: log file postfix, default is: log
+        :param level: log level save, default is: logging.DEBUG
+        :return: logging.Logger | None, init fail when return None.
+        """
+        log_path = os.path.join(os.getcwd(), log_dir)
         if not os.path.exists(log_path):
             os.mkdir(log_path)
         if not os.path.exists(log_path):
-            return False
-        log_file = os.path.join('logs', 'log_{0}.log'.format(tag))
-        handler = logging.handlers.RotatingFileHandler(log_file, maxBytes=1024 * 1024, backupCount=5)
+            return None
+        log_file = os.path.join(log_dir, '{0}-{1}.{2}'.format(prefix, tag, postfix))
+        handler = logging.handlers.RotatingFileHandler(
+            filename=log_file, maxBytes=1024 * 1024, backupCount=5)
         # fmt = '%(asctime)s %(levelname)s %(name)s %(filename)s - %(message)s'
         fmt = '%(asctime)s %(levelname)s %(name)s - %(message)s'
         formatter = logging.Formatter(fmt)
@@ -65,20 +104,33 @@ This script must run python 3.7.+
         PLog._logger = logging.getLogger(getpass.getuser())
         PLog._logger.addHandler(handler)
         PLog._logger.setLevel(level)
-        return True
+        return PLog._logger
 
     @staticmethod
     def set_verbose(verbose=False):
+        """
+        will close [ debug info ] log
+
+        :param verbose: show [ debug info ] log must set True
+        :return: None
+        """
         PLog._is_verbose = verbose
 
     @staticmethod
     def set_no_color(no_color=False):
+        """
+        set no color out put
+
+        :param no_color: default False
+        :return: None
+        """
         PLog._is_no_color = no_color
 
     @staticmethod
     def script_cur_dir_path():
         """
         get this script cur file path
+
         :return:
         """
         path = sys.path[0]
@@ -92,50 +144,74 @@ This script must run python 3.7.+
         return platform.system() == "Windows"
 
     @staticmethod
-    def log_normal(info):
-        if not PLog._is_sys_windows():
-            print(PLog.WRITE + info + PLog.END_LI)
-        else:
-            print(info)
+    def _log_tuple_to_str(info: tuple):
+        if len(info) == 0:
+            return ''
+        p_l = []
+        for i in info:
+            p_l.append(str(i))
+        l_join = ''.join(p_l)
+        return l_join
 
     @staticmethod
-    def log_assert(info):
+    def log_normal(*info):
+        t_str = PLog._log_tuple_to_str(info)
         if not PLog._is_sys_windows():
-            print(PLog.BLACK + info + PLog.END_LI)
+            print(PLog.WRITE + t_str + PLog.END_LI)
         else:
-            print(info)
+            print(t_str)
 
     @staticmethod
-    def log_info(info):
+    def log_assert(*info):
+        t_str = PLog._log_tuple_to_str(info)
         if not PLog._is_sys_windows():
-            print(PLog.OK_GREEN + info + PLog.END_LI)
+            print(PLog.BLACK + t_str + PLog.END_LI)
         else:
-            print(info)
+            print(t_str)
 
     @staticmethod
-    def log_debug(info):
+    def log_info(*info):
+        t_str = PLog._log_tuple_to_str(info)
         if not PLog._is_sys_windows():
-            print(PLog.OK_BLUE + info + PLog.END_LI)
+            print(PLog.OK_GREEN + t_str + PLog.END_LI)
         else:
-            print(info)
+            print(t_str)
 
     @staticmethod
-    def log_warning(info):
+    def log_debug(*info):
+        t_str = PLog._log_tuple_to_str(info)
         if not PLog._is_sys_windows():
-            print(PLog.WARNING + info + PLog.END_LI)
+            print(PLog.OK_BLUE + t_str + PLog.END_LI)
         else:
-            print(info)
+            print(t_str)
 
     @staticmethod
-    def log_error(info):
+    def log_warning(*info):
+        t_str = PLog._log_tuple_to_str(info)
         if not PLog._is_sys_windows():
-            print(PLog.ERROR + info + PLog.END_LI)
+            print(PLog.WARNING + t_str + PLog.END_LI)
         else:
-            print(info)
+            print(t_str)
+
+    @staticmethod
+    def log_error(*info):
+        t_str = PLog._log_tuple_to_str(info)
+        if not PLog._is_sys_windows():
+            print(PLog.ERROR + t_str + PLog.END_LI)
+        else:
+            print(t_str)
 
     @staticmethod
     def log(msg, lev=str, must=False):
         # type: (str, str, bool) -> None
+        """
+        log only out std
+
+        :param msg: log message
+        :param lev: i d w e a
+        :param must: default False
+        :return: any
+        """
         if not PLog._is_sys_windows():
             if PLog._is_no_color:
                 print('%s' % msg)
@@ -165,6 +241,14 @@ This script must run python 3.7.+
     @staticmethod
     def log_writer(msg, lev=str, must=False):
         # type: (str, str, bool) -> None
+        """
+        log out std and log file
+
+        :param msg: log message
+        :param lev: i d w e a
+        :param must: default False
+        :return: any
+        """
         PLog.log(msg, lev, must)
         if PLog._logger is None:
             return
@@ -194,17 +278,21 @@ This script must run python 3.7.+
                     PLog._logger.info(msg)
 
     @staticmethod
-    def info(msg, must=False):
-        PLog.log_writer(msg, 'i', must)
+    def info(*msg, must=False):
+        t_str = PLog._log_tuple_to_str(msg)
+        PLog.log_writer(t_str, 'i', must)
 
     @staticmethod
-    def debug(msg, must=False):
-        PLog.log_writer(msg, 'd', must)
+    def debug(*msg, must=False):
+        t_str = PLog._log_tuple_to_str(msg)
+        PLog.log_writer(t_str, 'd', must)
 
     @staticmethod
-    def warning(msg, must=False):
-        PLog.log_writer(msg, 'w', must)
+    def warning(*msg, must=False):
+        t_str = PLog._log_tuple_to_str(msg)
+        PLog.log_writer(t_str, 'w', must)
 
     @staticmethod
-    def error(msg, must=False):
-        PLog.log_writer(msg, 'e', must)
+    def error(*msg, must=False):
+        t_str = PLog._log_tuple_to_str(msg)
+        PLog.log_writer(t_str, 'e', must)

@@ -1,4 +1,4 @@
-# can has this head
+# can add this head
 # !/usr/bin/env python3
 
 __author__ = 'sinlov'
