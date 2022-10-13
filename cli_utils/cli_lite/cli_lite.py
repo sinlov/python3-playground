@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import optparse
 import os
@@ -360,14 +360,17 @@ more information see script code.
     msg_interrupt_generate = r'generate interrupt, if you want to continue use --force'
 
     def __init__(self):
-        self.options = None
-        self.args = None
+        self._parse_options = None
+        self._parse_args = None
         self_parser = optparse.OptionParser('\n\t%prog' + ' -h\n\t%prog -v -c\n' + OptDefClass.hint_help_info)
+        self_parser.add_option('-V', '--version', dest='show_version', action="store_true",
+                               help="show version",
+                               default=False)
         self_parser.add_option('-v', dest='v_verbose', action="store_true",
                                help="[-|+] see verbose",
                                default=False)
-        self_parser.add_option('--no-log', dest='no_log', action="store_true",
-                               help="[+|-] close cli log at path -> logs",
+        self_parser.add_option('--log', dest='open_log', action="store_true",
+                               help="[-|+] close cli log at path -> logs",
                                default=False)
         self_parser.add_option('--no-color', dest='no_color', action="store_true",
                                help="[+|-] close color cli out put",
@@ -375,31 +378,32 @@ more information see script code.
         self_parser.add_option('--force', dest='force', action="store_true",
                                help="[-|+] do job force, ignore warning",
                                default=False)
-        self_parser.add_option('-c', '--clean', dest='c_clean', action="store_true",
-                               help="[-|+] clean after cli",
-                               default=False)
         self_parser.add_option('--config-file', dest='config_file', type="string",
-                               help="config file default is config.json",
+                               help="load config file default is config.json",
                                default="",
                                metavar="config.json")
-        self.options, self.args = self_parser.parse_args()
+        self._parse_options, self._parse_args = self_parser.parse_args()
 
     def this_script_name(self):
         # type: () -> str
         return self.cwd_script_file_name
 
     def opt(self):
-        return self.options
+        return self._parse_options
 
     def args(self):
-        return self.args
+        return self._parse_args
 
-    def check_args_len(self, must_size=1):
-        if len(self.args) < must_size:
-            print('warning args input error {0}'.format(OptDefClass.enter_error_info))
+    def check_args_size_not_zero(self):
+        if len(self._parse_args) == 0:
+            print(
+                'Error input args size is zero {0}'.format(
+                    OptDefClass.enter_error_info)
+            )
+            raise Exception()
 
     def verification(self):
-        if not self.options.f_targetFile or not self.options.c_clean:
+        if not self._parse_options.f_targetFile or not self._parse_options.c_clean:
             exit('ERROR!must support --clean and --targetFile parameters!')
 
 
@@ -407,16 +411,21 @@ if __name__ == '__main__':
     PLog.check_runtime()
 
     opt = OptDefClass()
-    opt.check_args_len()
-    opt.verification()
+    # opt.check_args_size_not_zero()
+    # opt.verification()
 
     options = opt.opt()
+    # -V or --version
+    if options.show_version:
+        print(f'{OptDefClass.cwd_script_file_name} Version: {cli_version}')
+        exit(0)
+
     # --verbose
     if options.v_verbose:
         PLog.set_verbose(options.v_verbose)
-    # --no-log
-    if not options.no_log:
-        PLog.init_logger(PLog.find_now_time_format('%Y_%m_%d_%H_%M_%S'))
+    # --log
+    if options.open_log:
+        PLog.init_logger(PLog.find_now_time_format('%Y-%m-%d-%H_%M_%S'))
     # --no-color
     if options.no_color:
         PLog.set_no_color(options.no_color)
@@ -424,10 +433,6 @@ if __name__ == '__main__':
     # --force
     if options.force:
         PLog.log_writer(OptDefClass.msg_open_force_mode, 'w')
-
-    # --clean
-    if options.c_clean:
-        PLog.log_writer('now clean flag {0} force flag {1}'.format(options.c_clean, options.force), 'd')
 
     if options.config_file:
         config_file_path = options.config_file

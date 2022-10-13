@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import optparse
 import os
@@ -342,12 +342,10 @@ class Exec:
 
 class OptDefClass:
     hint_help_info = """
-Version :{0}
-
 must use library by
     pip3 install XXX=x.x.x
 more information see script code.
-""".format(cli_version)
+"""
 
     cwd_script_file_name = sys.argv[0][sys.argv[0].rfind(os.sep) + 1:]
     enter_error_info = """
@@ -365,11 +363,14 @@ more information see script code.
         self._parse_options = None
         self._parse_args = None
         self_parser = optparse.OptionParser('\n\t%prog' + ' -h\n\t%prog -v -c\n' + OptDefClass.hint_help_info)
+        self_parser.add_option('-V', '--version', dest='show_version', action="store_true",
+                               help="show version",
+                               default=False)
         self_parser.add_option('-v', dest='v_verbose', action="store_true",
                                help="[-|+] see verbose",
                                default=False)
-        self_parser.add_option('--no-log', dest='no_log', action="store_true",
-                               help="[+|-] close cli log at path -> logs",
+        self_parser.add_option('--log', dest='open_log', action="store_true",
+                               help="[-|+] close cli log at path -> logs",
                                default=False)
         self_parser.add_option('--no-color', dest='no_color', action="store_true",
                                help="[+|-] close color cli out put",
@@ -377,11 +378,8 @@ more information see script code.
         self_parser.add_option('--force', dest='force', action="store_true",
                                help="[-|+] do job force, ignore warning",
                                default=False)
-        self_parser.add_option('-c', '--clean', dest='c_clean', action="store_true",
-                               help="[-|+] clean after cli",
-                               default=False)
         self_parser.add_option('--config-file', dest='config_file', type="string",
-                               help="config file default is config.json",
+                               help="load config file default is config.json",
                                default="",
                                metavar="config.json")
         self._parse_options, self._parse_args = self_parser.parse_args()
@@ -413,15 +411,20 @@ if __name__ == '__main__':
     PLog.check_runtime()
 
     opt = OptDefClass()
-    opt.check_args_size_not_zero()
-    opt.verification()
+    # opt.check_args_size_not_zero()
+    # opt.verification()
 
     options = opt.opt()
+    # -V or --version
+    if options.show_version:
+        print(f'{OptDefClass.cwd_script_file_name} Version: {cli_version}')
+        exit(0)
+
     # --verbose
     if options.v_verbose:
         PLog.set_verbose(options.v_verbose)
-    # --no-log
-    if not options.no_log:
+    # --log
+    if options.open_log:
         PLog.init_logger(PLog.find_now_time_format('%Y-%m-%d-%H_%M_%S'))
     # --no-color
     if options.no_color:
@@ -430,10 +433,6 @@ if __name__ == '__main__':
     # --force
     if options.force:
         PLog.log_writer(OptDefClass.msg_open_force_mode, 'w')
-
-    # --clean
-    if options.c_clean:
-        PLog.log_writer('now clean flag {0} force flag {1}'.format(options.c_clean, options.force), 'd')
 
     if options.config_file:
         config_file_path = options.config_file
