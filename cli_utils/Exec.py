@@ -22,6 +22,21 @@ class Exec:
         return sub
 
     @staticmethod
+    def exec(cli_string, cwd=None, timeout=int(5 * 60 * 1), is_shell=False):
+        # type: (str, str, int, bool) -> (int, str, str)
+        if is_shell:
+            cmd_string_list = cli_string
+        else:
+            cmd_string_list = shlex.split(cli_string)
+            # print log
+        sub = subprocess.run(cmd_string_list, cwd=cwd,
+                             stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE, shell=is_shell,
+                             timeout=timeout,
+                             bufsize=128)
+        return sub.returncode, sub.stdout.decode(), sub.stderr.decode()
+
+    @staticmethod
     def find_cli_abs_path(cli_path, cwd_full_path):
         # type: (str, str) -> str
         if cli_path == '.':
