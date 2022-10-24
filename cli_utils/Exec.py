@@ -1,5 +1,6 @@
 import os
 import shlex
+import stat
 import subprocess
 from subprocess import CompletedProcess
 
@@ -51,3 +52,22 @@ class Exec:
         else:
             path_join = os.path.join(cwd_full_path, cli_path)
             return os.path.abspath(path_join)
+
+    @staticmethod
+    def change_files_write(target_path=str):
+        # type: (str) -> None
+        for root, dirs, files in os.walk(target_path):
+            for name in files:
+                os.chmod(os.path.join(root, name), stat.S_IWRITE)
+        print('change change_files_write success')
+
+    @staticmethod
+    def del_dot_head_files(target_path):
+        try:
+            for root, dirs, files in os.walk(target_path):
+                for name in files:
+                    if name.startswith("."):
+                        os.remove(os.path.join(root, name))
+            print(f"delete path {target_path} success!")
+        except Exception as e:
+            print(f"delete path {target_path} error {e}")
