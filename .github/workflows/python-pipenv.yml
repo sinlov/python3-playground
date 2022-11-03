@@ -16,10 +16,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: update dependecies
-      uses: VaultVulp/action-pipenv@v2.0.1
-      with:
-        command: update --outdated
     - name: Install dependecies
       uses: VaultVulp/action-pipenv@v2.0.1
       with:
