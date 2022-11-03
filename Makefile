@@ -3,7 +3,7 @@
 # each tag change this
 ENV_DIST_VERSION := 1.0.0
 
-ENV_PROJECT_NAME ?= tudm-cli
+ENV_PROJECT_NAME ?= python3-playground
 ENV_ROOT ?= $(shell pwd)
 ENV_MODULE_FOLDER ?= ${ENV_ROOT}
 ENV_MODULE_MANIFEST = ${ENV_ROOT}/package.json
