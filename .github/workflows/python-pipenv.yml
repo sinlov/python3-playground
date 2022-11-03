@@ -16,10 +16,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: remove dependecies lock
+      uses: VaultVulp/action-pipenv@v2.0.1
+      with:
+        command: rm Pipfile.lock
     - name: Install dependecies
       uses: VaultVulp/action-pipenv@v2.0.1
       with:
-        command: install --skip-lock --dev # Install all dependencies, including development ones
+        command: install -d # Install all dependencies, including development ones
     - name: Run main
       uses: VaultVulp/action-pipenv@v2.0.1
       with:
