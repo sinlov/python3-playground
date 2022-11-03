@@ -45,7 +45,7 @@ class PLog:
         pass
 
     _runtime_version_error = """
-This script must run python 3.7.+
+This script must run python 3.8.+
 """
 
     ERROR = '\033[91m'
@@ -64,16 +64,16 @@ This script must run python 3.7.+
     @staticmethod
     def check_runtime():
         """
-        check runtime must python 3.7+
+        check runtime must python 3.8+
 
         :return: check error will exit
         """
         PLog.log('Python version %s' % platform.python_version(), 'd')
         version_split = platform.python_version().split('.')
-        if version_split[0] != '3':
+        if int(version_split[0]) != 3:
             PLog.log(PLog._runtime_version_error, 'e', True)
             exit(1)
-        if version_split[1] < '7':
+        if int(version_split[1]) < 8:
             PLog.log(PLog._runtime_version_error, 'e', True)
             exit(1)
 
