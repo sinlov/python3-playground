@@ -22,13 +22,14 @@ jobs:
         python-version: "3.10.7"
     - name: Install dependencies
       run: |
-        python install pipenv
-        pipenv install --skip-lock --dev
+        python -m pip install --upgrade pip
+        python -m pip install --upgrade pipenv
+        python -m pipenv install --skip-lock --dev
     - name: pipenv sync dev
       run: |
-         # Install all dependencies as sync
-        pipenv sync --dev
+        # Install all dependencies as sync
+        python -m pipenv sync --dev
     - name: pipenv Run test_main
       run: |
         # Run custom `test` command defined in the `[scripts]` block of unittest
-        pipenv run test_main
+        python -m pipenv  run test_main
