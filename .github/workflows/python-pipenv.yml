@@ -19,7 +19,7 @@ jobs:
     - name: Install dependecies
       uses: VaultVulp/action-pipenv@v2.0.1
       with:
-        command: install --three -d # Install all dependencies, including development ones
+        command: install --skip-lock --dev # Install all dependencies, including development ones
     - name: Run main
       uses: VaultVulp/action-pipenv@v2.0.1
       with:
