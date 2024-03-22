@@ -43,10 +43,18 @@ $ make env
 $ make dep
 ```
 
+## test
+
+### run all test
+
+```bash
+$ make test
+```
+
 ### simple test run
 
 - code at [tests/test_main.py](tests/test_main.py)
 
 ```bash
-$ poetry run test_main
+$ poetry run python -m unittest tests/test_main.py
 ```
