@@ -8,6 +8,9 @@ on:
 
 jobs:
   build:
+    defaults:
+      run:
+        shell: bash
     strategy:
       fail-fast: false
       matrix:
@@ -36,6 +39,7 @@ jobs:
 
     - name: Install dependencies
       run: |
+        rm -f poetry.lock
         poetry install
     - name: Run tests
       run: |
