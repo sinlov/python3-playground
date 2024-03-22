@@ -45,6 +45,15 @@ $ make env
 
 # install dependencies
 $ make dep
+
+# run ci pipeline
+$ make ci
+
+# fix code style
+$ make style
+
+# check style
+$ make check
 ```
 
 ## test

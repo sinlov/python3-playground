@@ -16,32 +16,15 @@ gevent = "==24.2.1"
 psutil = "==5.9.8"
 
 [tool.poetry.dev-dependencies]
+Faker = "==24.3.0"
 httpie = "*"
 pytest = "==7.2.1"
 pytest-cov = "==4.1.0"
-flake8 = "==6.1.0"
-pyproject-flake8 = "==6.1.0"
-isort = "==5.13.2"
-black = "==24.3.0"
-Faker = "==24.3.0"
+# https://docs.astral.sh/ruff/
+# https://github.com/astral-sh/ruff
+ruff = "^0.3.4"
 
 # https://pypi.org/project/pyproject-flake8/
-
-[[tool.poetry.source]]
-name = "tuna"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
-priority = "primary"
-
-[tool.flake8]
-ignore = 'E501,W503,E203'
-max-line-length = 88
-extend-ignore = ["E203"]
-max-complexity = 10
-
-# https://pypi.org/project/black/
-[tool.black]
-line-length = 100
-target-version = ['py36', 'py37', 'py38', 'py39', 'py310']
 
 [tool.poetry.scripts]
 show-version = "py3_playground.show_version:show_python_version"
@@ -55,8 +38,7 @@ show-version = "py3_playground.show_version:show_python_version"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-# set mirror
-#[[tool.poetry.source]]
-#name = "tsinghua"
-#url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
-#default = true
+[[tool.poetry.source]]
+name = "tuna"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+priority = "primary"

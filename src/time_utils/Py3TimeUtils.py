@@ -31,12 +31,12 @@ class Py3TimeUtils:
         return int(round(time.time() * 1000000))
 
     @staticmethod
-    def now_time_format(fmt="%Y-%m-%d %H:%M:%S.%f"):
+    def now_time_format(fmt='%Y-%m-%d %H:%M:%S.%f'):
         # type: (str) -> str
         return datetime.datetime.now().strftime(fmt)
 
     @staticmethod
-    def time_to_second(dt, fmt="%Y-%m-%d %H:%M:%S"):
+    def time_to_second(dt, fmt='%Y-%m-%d %H:%M:%S'):
         # type: (str, str) -> int
         """
         time str to second
@@ -47,7 +47,7 @@ class Py3TimeUtils:
         return int(time.mktime(time.strptime(dt, fmt)))
 
     @staticmethod
-    def timestamp_second_fmt(ts, fmt="%Y-%m-%d %H:%M:%S"):
+    def timestamp_second_fmt(ts, fmt='%Y-%m-%d %H:%M:%S'):
         # type: (int, str) -> str
         """
         timestamp second

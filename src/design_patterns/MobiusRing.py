@@ -1,6 +1,6 @@
 # coding=utf-8
 
-__author__ = "sinlov"
+__author__ = 'sinlov'
 
 from multiprocessing import Pool
 
@@ -15,9 +15,9 @@ class _Singleton(object):
 
 
 class MobiusRing(_Singleton):
-    __write_path = ""
+    __write_path = ''
     __write_count = 10
-    __write_line_content = ""
+    __write_line_content = ''
 
     def set_write_path(self, path: str):
         self.__write_path = path
@@ -32,7 +32,7 @@ class MobiusRing(_Singleton):
         return num
 
     def __write_file(self):
-        with open(self.__write_path, "a+", encoding="utf-8") as f:
+        with open(self.__write_path, 'a+', encoding='utf-8') as f:
             f.writelines(str(self.__write_line_content))
 
     def do(self):

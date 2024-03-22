@@ -35,7 +35,7 @@ class PyTimer:
             try:
                 callback(self, *args)
             except Exception as e:
-                _logging.error("error from callback {}: {}".format(callback, e))
+                _logging.error('error from callback {}: {}'.format(callback, e))
                 if self.on_error:
                     self.on_error(self, e)
 

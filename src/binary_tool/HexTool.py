@@ -7,22 +7,22 @@ class HexTool:
     @staticmethod
     def bytes_to_hex_str(bs):
         # type: (bytes) -> str
-        return "".join(["%02X" % b for b in bs])
+        return ''.join(['%02X' % b for b in bs])
 
     @staticmethod
     def bytes_to_hex_str_arr(bs):
         # type: (bytes) -> str
-        return "".join(["%02X " % b for b in bs])
+        return ''.join(['%02X ' % b for b in bs])
 
     @staticmethod
     def str_to_bytes(target):
         # type: (str) -> bytes
-        return bytes(target, encoding="utf8")
+        return bytes(target, encoding='utf8')
 
     @staticmethod
     def bytes_to_str(bs):
         # type: (bytes) -> str
-        return bytes.decode(bs, encoding="utf8")
+        return bytes.decode(bs, encoding='utf8')
 
 
 def str_to_bytes(test_str: str) -> bytes:

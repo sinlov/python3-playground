@@ -81,13 +81,12 @@ init: dep depFix
 	@echo "=> just init finish this project by poetry"
 
 style: dep
-	@poetry run isort -src $(ENV_CHECK_FILES)
-	@poetry run black $(ENV_CHECK_FILES)
+	@poetry env info
+	@poetry run ruff format $(ENV_CHECK_FILES)
 
 check:
 	@poetry env info
-	@poetry run black --check $(ENV_BLACK_OPTS) $(ENV_CHECK_FILES) || (echo "Please run 'make style' to auto-fix style issues" && false)
-	@poetry run pflake8 $(ENV_CHECK_FILES)
+	@poetry run ruff check $(ENV_CHECK_FILES)
 
 test: dep
 	${py_warn} poetry run pytest
@@ -132,11 +131,11 @@ cleanDist:
 cleanLogs:
 	@$(RM) -r logs
 
-cleanAll: cleanDist cleanLogs testCoverageClean
+cleanAll: cleanDist cleanLogs testCoverageClean testClean
 	@echo "has clean all"
 
 help:
-	@echo "unity makefile template"
+	@echo "makefile help"
 	@echo " module folder   path: ${ENV_MODULE_FOLDER}"
 	@echo " module version    is: ${ENV_DIST_VERSION}"
 	@echo " module manifest path: ${ENV_MODULE_MANIFEST}"

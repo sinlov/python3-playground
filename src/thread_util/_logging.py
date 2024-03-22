@@ -1,6 +1,6 @@
 import logging
 
-_logger = logging.getLogger("PyTimer")
+_logger = logging.getLogger('PyTimer')
 try:
     from logging import NullHandler
 except ImportError:
@@ -15,15 +15,15 @@ _logger.addHandler(NullHandler())
 _traceEnabled = False
 
 __all__ = [
-    "enableTrace",
-    "dump",
-    "error",
-    "warning",
-    "debug",
-    "trace",
-    "isEnabledForError",
-    "isEnabledForDebug",
-    "isEnabledForTrace",
+    'enableTrace',
+    'dump',
+    'error',
+    'warning',
+    'debug',
+    'trace',
+    'isEnabledForError',
+    'isEnabledForDebug',
+    'isEnabledForTrace',
 ]
 
 
@@ -45,9 +45,9 @@ def enableTrace(traceable, handler=logging.StreamHandler()):
 
 def dump(title, message):
     if _traceEnabled:
-        _logger.debug("--- " + title + " ---")
+        _logger.debug('--- ' + title + ' ---')
         _logger.debug(message)
-        _logger.debug("-----------------------")
+        _logger.debug('-----------------------')
 
 
 def error(msg):

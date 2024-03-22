@@ -1,4 +1,4 @@
-__author__ = "sinlov"
+__author__ = 'sinlov'
 
 import codecs
 import json
@@ -62,7 +62,11 @@ class Py3Json:
         :return: json str
         """
         return json.dumps(
-            json_dict, ensure_ascii=False, indent=4, sort_keys=True, separators=(",", ":")
+            json_dict,
+            ensure_ascii=False,
+            indent=4,
+            sort_keys=True,
+            separators=(',', ':'),
         )
 
     @staticmethod
@@ -77,40 +81,44 @@ class Py3Json:
         return json.dumps(obj_json, ensure_ascii=False, indent=4, sort_keys=True)
 
     @staticmethod
-    def write_json_utf_8_beauty(out_path, json_dict, encode="utf-8", sort_keys=True):
+    def write_json_utf_8_beauty(out_path, json_dict, encode='utf-8', sort_keys=True):
         # type: (str, dict, str, bool) -> None
         js = json.dumps(
-            json_dict, ensure_ascii=False, indent=4, sort_keys=sort_keys, separators=(",", ":")
+            json_dict,
+            ensure_ascii=False,
+            indent=4,
+            sort_keys=sort_keys,
+            separators=(',', ':'),
         )
-        with codecs.open(out_path, "w+", encode) as dict_json:
+        with codecs.open(out_path, 'w+', encode) as dict_json:
             dict_json.write(js)
 
     @staticmethod
     def write_json_utf_8(out_path, json_dict):
         # type: (str, dict) -> None
         js = json.dumps(json_dict, ensure_ascii=False)
-        with codecs.open(out_path, "w+", "utf-8") as dict_json:
+        with codecs.open(out_path, 'w+', 'utf-8') as dict_json:
             dict_json.write(js)
 
     @staticmethod
-    def write_json(out_path, json_dict, encode="utf-8"):
+    def write_json(out_path, json_dict, encode='utf-8'):
         # type: (str, dict, str) -> None
         js = json.dumps(json_dict, ensure_ascii=False)
-        with codecs.open(out_path, "w+", encode) as dict_json:
+        with codecs.open(out_path, 'w+', encode) as dict_json:
             dict_json.write(js)
 
     @staticmethod
-    def write_dict_to_file(path, json_dict, encode="utf-8"):
+    def write_dict_to_file(path, json_dict, encode='utf-8'):
         # type: (str, dict, str) -> None
         json_string = json.dumps(json_dict, encoding=encode)
-        with open(path, "w", encoding=encode) as f:
+        with open(path, 'w', encoding=encode) as f:
             f.write(json_string)
             f.close()
 
     @staticmethod
-    def read_json_file_to_dict(json_path=str, encode="utf-8"):
+    def read_json_file_to_dict(json_path=str, encode='utf-8'):
         # type: (str, str) -> dict
         if not os.path.exists:
             return {}
-        with open(json_path, "r", encoding=encode) as load_js:
+        with open(json_path, 'r', encoding=encode) as load_js:
             return json.load(load_js)

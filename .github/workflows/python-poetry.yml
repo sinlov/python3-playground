@@ -57,8 +57,7 @@ jobs:
 
     - name: Run python lint
       run: |
-        poetry run black --check src/ tests/
-        poetry run pflake8 src/ tests/
+        poetry run ruff check src/ tests/
 
     - name: Run tests
       run: |

@@ -50,10 +50,10 @@ class Exec:
     @staticmethod
     def find_cli_abs_path(cli_path, cwd_full_path):
         # type: (str, str) -> str
-        if cli_path == ".":
+        if cli_path == '.':
             return cwd_full_path
-        if cli_path.startswith("./"):
-            return os.path.join(cwd_full_path, cli_path.lstrip("./"))
+        if cli_path.startswith('./'):
+            return os.path.join(cwd_full_path, cli_path.lstrip('./'))
         if os.path.exists(cli_path):
             if cli_path.startswith(os.path.sep):
                 return cli_path
@@ -69,15 +69,15 @@ class Exec:
         for root, dirs, files in os.walk(target_path):
             for name in files:
                 os.chmod(os.path.join(root, name), stat.S_IWRITE)
-        print("change change_files_write success")
+        print('change change_files_write success')
 
     @staticmethod
     def del_dot_head_files(target_path):
         try:
             for root, dirs, files in os.walk(target_path):
                 for name in files:
-                    if name.startswith("."):
+                    if name.startswith('.'):
                         os.remove(os.path.join(root, name))
-            print(f"delete path {target_path} success!")
+            print(f'delete path {target_path} success!')
         except Exception as e:
-            print(f"delete path {target_path} error {e}")
+            print(f'delete path {target_path} error {e}')

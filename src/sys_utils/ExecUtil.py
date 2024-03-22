@@ -1,6 +1,6 @@
 # flake8: noqa
 
-__author__ = "sinlov"
+__author__ = 'sinlov'
 
 import shlex
 import subprocess
@@ -115,7 +115,9 @@ class ExecUtil:
             # PLog.log(
             #     '\ncli -> %s\ncwd -> %s\ntimeOut -> %s\nis_shell -> %s\n' % (cmd_string, cwd, time_out, is_shell),
             #     'v', True)
-            command_out = ExecUtil.execute_cli(cmd_string, cwd, time_out, is_shell, True)
+            command_out = ExecUtil.execute_cli(
+                cmd_string, cwd, time_out, is_shell, True
+            )
             if command_out.returncode == 0:
                 # PLog.log_writer('{0}'.format(command_out.stdout.decode()), 'i', True)
                 # PLog.log_writer('{0}'.format(command_out.stderr.decode()), 'w', True)
@@ -125,6 +127,6 @@ class ExecUtil:
                 # PLog.log_writer('{0}'.format(command_out.stderr.decode()), 'e', True)
                 return False
         except Exception as e:
-            print("cmd_line error %s" % e)
+            print('cmd_line error %s' % e)
             # PLog.log('cmd_line %s\nError info %s' % (cmd_string, str(e)), 'e', True)
             return False

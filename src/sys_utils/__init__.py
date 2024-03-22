@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-__author__ = "sinlov"
+__author__ = 'sinlov'

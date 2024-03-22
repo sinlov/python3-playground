@@ -4,7 +4,7 @@ import re
 from xml.dom import minidom
 from xml.etree import ElementTree
 
-__author__ = "sinlov"
+__author__ = 'sinlov'
 
 
 class Py3MiniDom:
@@ -32,21 +32,26 @@ class Py3MiniDom:
         """
         try:
             if os.path.exists(xml_path):
-                with open(xml_path, "r", encoding="UTF-8") as fh:
+                with open(xml_path, 'r', encoding='UTF-8') as fh:
                     parse = minidom.parse(fh)
                     if parse:
                         return parse
                     else:
-                        print("Error read_xml_file {0}".format("dom is None"))
+                        print('Error read_xml_file {0}'.format('dom is None'))
             else:
-                raise Exception("path not found {0}".format(xml_path))
+                raise Exception('path not found {0}'.format(xml_path))
         except Exception as ex:
-            print("Error read_xml_file {0}".format(ex))
+            print('Error read_xml_file {0}'.format(ex))
             pass
 
     @staticmethod
     def beauty_write(
-        document, target_file_path=str, add_indent="\t", indent="", newline="", encode="utf-8"
+        document,
+        target_file_path=str,
+        add_indent='\t',
+        indent='',
+        newline='',
+        encode='utf-8',
     ):
         # type: (minidom.Document, str, str, str, str, str) -> None
         """
@@ -62,15 +67,19 @@ class Py3MiniDom:
         """
         try:
             dom_copy = document.cloneNode(True)
-            f = open(target_file_path, "wb")
-            writer = codecs.lookup("utf-8")[3](f)
+            f = open(target_file_path, 'wb')
+            writer = codecs.lookup('utf-8')[3](f)
             dom_copy.writexml(
-                writer, indent=indent, addindent=add_indent, newl=newline, encoding=encode
+                writer,
+                indent=indent,
+                addindent=add_indent,
+                newl=newline,
+                encoding=encode,
             )
             dom_copy.unlink()
             f.close()
         except Exception as ex:
-            print("Error beauty_write -> {0}".format(ex))
+            print('Error beauty_write -> {0}'.format(ex))
             pass
 
     @staticmethod
@@ -79,12 +88,12 @@ class Py3MiniDom:
         children = node.childNodes[:]
         # Main node doesn't need to be indented
         if indent:
-            text = dom.createTextNode("\n" + "\t" * indent)
+            text = dom.createTextNode('\n' + '\t' * indent)
             node.parentNode.insertBefore(text, node)
         if children:
             # Append newline after last child, except for text nodes
             if children[-1].nodeType == node.ELEMENT_NODE:
-                text = dom.createTextNode("\n" + "\t" * indent)
+                text = dom.createTextNode('\n' + '\t' * indent)
                 node.a(text)
                 # Indent children which are elements
                 for n in children:
@@ -98,18 +107,18 @@ class Py3MiniDom:
         try:
             if os.path.exists(file_path):
                 result = list()
-                in_fp = open(file_path, "r")
+                in_fp = open(file_path, 'r')
                 for line in in_fp.readlines():
-                    if not re.match(r"^\s*$", line):
+                    if not re.match(r'^\s*$', line):
                         result.append(line)
                 in_fp.close()
                 # print('start del_xml_empty_line count {0}'.format(len(result)))
                 if len(result) > 0:
-                    out_fp = open(file_path, "w")
-                    out_fp.write("%s" % "".join(result))
+                    out_fp = open(file_path, 'w')
+                    out_fp.write('%s' % ''.join(result))
                     out_fp.close()
         except Exception as ex:
-            print("Error del_blank_line -> {0}".format(ex))
+            print('Error del_blank_line -> {0}'.format(ex))
             pass
 
 
@@ -130,7 +139,7 @@ class Py3ElementTree:
         pass
 
     @staticmethod
-    def beauty_format(element, indent="\t", newline="\n", level=0):
+    def beauty_format(element, indent='\t', newline='\n', level=0):
         # type: (ElementTree, str, str, int) -> None
         """
         beauty XML
@@ -142,7 +151,9 @@ class Py3ElementTree:
         :return: None this method only do element beauty
         """
         if element is not None:  # 判断element是否有子元素
-            if element.text is None or element.text.isspace():  # 如果element的text没有内容
+            if (
+                element.text is None or element.text.isspace()
+            ):  # 如果element的text没有内容
                 element.text = newline + indent * (level + 1)
             else:
                 element.text = (
@@ -163,10 +174,12 @@ class Py3ElementTree:
             else:  # 如果是list的最后一个元素， 说明下一行是母元素的结束，缩进应该少一个
                 sub_element.tail = newline + indent * level
                 # 对子元素进行递归操作
-                Py3ElementTree.beauty_format(sub_element, indent, newline, level=level + 1)
+                Py3ElementTree.beauty_format(
+                    sub_element, indent, newline, level=level + 1
+                )
 
     @staticmethod
-    def beauty_format_print(element, indent="\t", newline="\n", level=0):
+    def beauty_format_print(element, indent='\t', newline='\n', level=0):
         # type: (ElementTree, str, str, int) -> None
         """
         print beauty XML
