@@ -17,17 +17,21 @@
 
 - this project use [gevent](https://www.gevent.org/), but `gevent` [not support windows 10 x64](https://github.com/gevent/gevent/issues/1918)
 
-```bash
-
 ### poetry 使用镜像源
 
 - see [https://python-poetry.org/docs/repositories/#disabling-the-pypi-repository](https://python-poetry.org/docs/repositories/#disabling-the-pypi-repository)
 
 ```bash
-poetry source add --default aliyun https://mirrors.aliyun.com/pypi/simple
+# 设置默认源
 poetry source add --default tuna https://pypi.tuna.tsinghua.edu.cn/simple/
+poetry source remove tuna
+
 # 设置私有源
+# Consider changing the priority to one of the non-deprecated values: 'default', 'primary', 'supplemental', 'explicit'
 poetry source add --priority=PRIORITY [name] [url]
+
+poetry source add --priority supplemental aliyun https://mirrors.aliyun.com/pypi/simple
+poetry source remove aliyun
 ```
 
 ## dev

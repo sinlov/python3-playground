@@ -76,7 +76,7 @@ depCheck:
 depLock:
 	@poetry lock
 
-init: dep up
+init: dep depFix
 	@poetry about
 	@echo "=> just init finish this project by poetry"
 
