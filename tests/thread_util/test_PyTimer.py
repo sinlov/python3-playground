@@ -1,7 +1,7 @@
 import time
 import unittest
 
-from src import PyTimer
+from src.thread_util import PyTimer
 
 
 class PyTimerTests(unittest.TestCase):
@@ -20,7 +20,7 @@ class PyTimerTests(unittest.TestCase):
         pass
 
     def test_simple_once(self):
-        self.py_timer = PyTimer(self.do_simple_timer, "foo")
+        self.py_timer = PyTimer.PyTimer(self.do_simple_timer, "foo")
         self.py_timer.on_stop = self.on_py_timer_stop
         self.py_timer.run_forever(interval=1, once=False)
 

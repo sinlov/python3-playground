@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from src import MobiusRing
+from src.design_patterns import MobiusRing
 
 
 class TestMobiusRing(unittest.TestCase):
@@ -17,7 +17,7 @@ class TestMobiusRing(unittest.TestCase):
 
     def test_something(self):
         write_path = os.path.join(self._test_data_folder, "1.text")
-        mobius_ring = MobiusRing()
+        mobius_ring = MobiusRing.MobiusRing()
         mobius_ring.set_write_path(write_path)
         mobius_ring.set_write_line_content("foo")
         mobius_ring.do()

@@ -17,6 +17,8 @@ test[Dd]ata/
 
 ### Python template
 
+.venv
+
 .pytest_cache
 
 # Byte-compiled / optimized / DLL files

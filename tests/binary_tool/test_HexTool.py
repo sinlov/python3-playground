@@ -1,6 +1,6 @@
 import unittest
 
-from src import HexTool
+from src.binary_tool import HexTool
 
 
 class HexToolTests(unittest.TestCase):

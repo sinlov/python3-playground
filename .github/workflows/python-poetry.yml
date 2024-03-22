@@ -32,21 +32,35 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Run image
+    - name: Install poetry
       uses: abatilo/actions-poetry@v2
       with:
         poetry-version: ${{ matrix.poetry-version }}
 
+    - name: Remove lock file
+      run: rm -f poetry.lock
+
+    - name: Setup a local virtual environment (if no poetry.toml file)
+      run: |
+        poetry config virtualenvs.create true --local
+        poetry config virtualenvs.in-project true --local
+
+    - uses: actions/cache@v3
+      name: Define a cache for the virtual environment based on the dependencies lock file
+      with:
+        path: ./.venv
+        key: venv-${{ hashFiles('poetry.lock') }}
+
     - name: Install dependencies
       run: |
-        rm -f poetry.lock
         poetry install
+
+    - name: Run python lint
+      run: |
+        poetry run black --check src/ tests/
+        poetry run pflake8 src/ tests/
+
     - name: Run tests
       run: |
         # Run custom `test` command defined in the `[scripts]` block of unittest
         poetry run pytest
-
-    - name: Lint
-      run: |
-        poetry run black --check src/ tests/
-        poetry run pflake8 src/ tests/
