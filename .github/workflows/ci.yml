@@ -1,0 +1,62 @@
+name: ci
+
+on:
+  push:
+    paths-ignore:
+      - '**/README.md'
+    branches:
+      - 'main'
+      - 'release-*'
+      - 'FE-*'
+      - '*-feature-*'
+      - 'BF-*'
+      - '*-bug-*'
+      - 'PU-*'
+      - 'DOC-*'
+      - '*-documentation-*'
+      - '*-hotfix-*'
+    tags:
+      - '*' # Push events to matching *, i.e. 1.0.0 v1.0, v20.15.10
+  pull_request:
+    paths-ignore:
+      - '**/README.md'
+    types: # https://docs.github.com/actions/using-workflows/events-that-trigger-workflows#pull_request
+      - opened
+      - reopened
+      - closed
+    # branches:
+    #   - 'main'
+    #   - 'release-*'
+    #   - 'DOC-*'
+    #   - 'hotfix-*'
+
+permissions:
+  contents: write
+  discussions: write
+
+jobs:
+  version:
+    name: version
+    uses: ./.github/workflows/version.yml
+
+  python-poetry:
+    name: python-poetry
+    needs:
+      - version
+    uses: ./.github/workflows/python-poetry.yml
+    secrets: inherit
+
+  deploy-tag:
+    needs:
+      - version
+      - python-poetry
+    name: deploy-tag
+    uses: ./.github/workflows/deploy-tag.yml
+    if: startsWith(github.ref, 'refs/tags/')
+    secrets: inherit
+    with:
+      dry_run: false # open/close dry run
+      prerelease: true
+      tag_name: ${{ needs.version.outputs.tag_name }}
+      tag_changes: ${{ needs.version.outputs.cc_changes }}
+      # download_artifact_name: foo-release # download artifact name, download from actions/upload-artifact, as: {download_artifact_name}-{tag_name}-*, empty is not download

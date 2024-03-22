@@ -1,8 +1,24 @@
 ### custom
 
+logs/
 .env
 
+# testData folder
+test[Dd]ata/
+
+### Pyinstall
+
+/build/
+/dist/
+
+### vscode
+
+/.vscode/
+
 ### Python template
+
+.pytest_cache
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

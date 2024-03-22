@@ -1,0 +1,62 @@
+[tool.poetry]
+name = "py3_playground"
+version = "0.1.0"
+description = "playground of python3"
+authors = ["sinlov <sinlovgmppt@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.11.7"
+
+requests = "*"
+urllib3 = ">=1.26.5"
+Pygments = ">=2.7.4"
+gevent = "==23.9.0"
+psutil = "==5.9.8"
+
+[tool.poetry.dev-dependencies]
+httpie = "*"
+pytest = "==7.2.1"
+pytest-cov = "==4.1.0"
+flake8 = "==6.1.0"
+pyproject-flake8 = "==6.1.0"
+isort = "==5.13.2"
+black = "==24.3.0"
+Faker = "==24.3.0"
+
+# https://pypi.org/project/pyproject-flake8/
+
+[[tool.poetry.source]]
+name = "tuna"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+priority = "default"
+
+[tool.flake8]
+ignore = 'E501,W503,E203'
+max-line-length = 88
+extend-ignore = ["E203"]
+max-complexity = 10
+
+# https://pypi.org/project/black/
+[tool.black]
+line-length = 100
+target-version = ['py36', 'py37', 'py38', 'py39', 'py310']
+
+[tool.poetry.scripts]
+show-version = "py3_playground.show_version:show_python_version"
+#test_main = "python -m unittest discover"
+#tests_module_target = "python -m unittest tests"
+#tests_some_file = "python -m unittest discover -s tests -p test_*.py" # -s [folder] -p [file]
+#tests_file_target = "python -m unittest tests/test_main.py" # only python3
+#tests_binary_tool = "python -m unittest discover -s tests/binary_tool -p test_*.py" # -s [folder] -p [file]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# set mirror
+#[[tool.poetry.source]]
+#name = "tsinghua"
+#url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
+#default = true

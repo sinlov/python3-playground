@@ -4,102 +4,159 @@
 ENV_DIST_VERSION := 1.0.0
 
 ENV_PROJECT_NAME ?= python3-playground
-ENV_ROOT ?= $(shell pwd)
+ENV_CHECK_FILES=src/ tests/
+ENV_BLACK_OPTS=
+py_warn = PYTHONDEVMODE=1
+ENV_PYTHON_ENV_VERSION =3.11.7
+
+ifeq ($(OS),Windows_NT)
+ PLATFORM=Windows
+ # do windows
+ ENV_ROOT ?= $(shell pwd)
+ #py_warn = $$env:PYTHONDEVMODE=1;
+ py_warn=
+else
+ OS_UNAME ?= $(shell echo `uname`) # Linux Darwin
+ OS_BIT ?= $(shell echo `uname -m`) # x86_64 arm64
+ ifeq ($(shell uname),Darwin)
+  PLATFORM="MacOS"
+  ifeq ($(shell echo ${OS_BIT}),arm64)
+    PLATFORM="MacOS-Apple-Silicon"
+  else
+    PLATFORM="MacOS-Intel"
+  endif
+ else
+  PLATFORM="Unix-Like"
+ endif
+ # do unix
+ ENV_ROOT ?= $(shell pwd)
+ py_warn=
+endif
 ENV_MODULE_FOLDER ?= ${ENV_ROOT}
 ENV_MODULE_MANIFEST = ${ENV_ROOT}/package.json
 
-runMain:
-	pipenv run main
-
-runTest:
-	pipenv run test_main
-
 env:
-	pipenv --version
-	pipenv check
+	@echo ------- start show env ---------
+	@echo ""
+	@echo "ROOT_NAME                          ${ROOT_NAME}"
+	@echo "PLATFORM                           ${PLATFORM}"
+	@echo "ENV_ROOT                           ${ENV_ROOT}"
+	@echo "ENV_MODULE_FOLDER                  ${ENV_MODULE_FOLDER}"
+	@echo "ENV_MODULE_MANIFEST                ${ENV_MODULE_MANIFEST}"
+	@echo ""
+	@echo "- now python version is -"
+	@python -V
+	@echo "= if poetry install error try use"
+	@echo "$$ pyenv shell ${ENV_PYTHON_ENV_VERSION}"
+	@echo "or target version to fix"
+	@echo "- show poetry env list -"
+	@poetry env list
+	@echo ""
+	@echo ------- end  show env ---------
 
-init:
-	pipenv install --skip-lock --dev
+up:
+	@poetry env info
+	@poetry update
 
-rmEnv:
-	pipenv --rm
+dep:
+	@poetry env info
+	@poetry install
 
-install:
-	pipenv sync --dev
-	pipenv sync
+depFix:
+	@poetry env info
+	@poetry lock --no-update
 
-graph:
-	pipenv graph
+depCheck:
+	$(info check: poetry env info)
+	@poetry env info
+	$(info check: poetry env list)
+	@poetry env list
+	@poetry check
 
-dependencies:
-	-pipenv check --verbose
-	-pipenv lock --verbose
+depLock:
+	@poetry lock
 
-dependenciesUpdate:
-	-pipenv check --clear
-	-pipenv update --outdated
-	-pipenv lock
+init: dep up
+	@poetry about
+	@echo "=> just init finish this project by poetry"
 
-tasks:
-	pipenv scripts
+style: dep
+	@poetry run isort -src $(ENV_CHECK_FILES)
+	@poetry run black $(ENV_CHECK_FILES)
+
+check:
+	@poetry env info
+	@poetry run black --check $(ENV_BLACK_OPTS) $(ENV_CHECK_FILES) || (echo "Please run 'make style' to auto-fix style issues" && false)
+	@poetry run pflake8 $(ENV_CHECK_FILES)
+
+test: dep
+	${py_warn} poetry run pytest
+
+testWithWarn:
+	${py_warn} poetry run pytest -W error::UserWarning
+
+testDisableWarn:
+	${py_warn} poetry run pytest --disable-warnings
+
+testCoverage:
+	${py_warn} poetry run pytest --cov-append --cov-report=html --cov=./
+
+testClean:
+	@$(RM) -r .pytest_cache/
+
+testCoverageClean:
+	@$(RM) .coverage
+	@$(RM) .coverage.*
+	@$(RM) -r htmlcov/
+
+build: dep
+	@poetry build
+
+buildOnly:
+	@poetry build
+
+publish: dep
+	@poetry publish --build
+
+ci: check test
 
 shell:
-	@echo "-> in pipenv shell"
-	@echo " install runtime like: pipenv install requests"
-	@echo " install develop like: pipenv install httpie --dev"
-	@echo " uninstall like: pipenv uninstall requests"
+	@echo "-> in poetry shell"
 	@echo ""
 	@echo "and will load environment file as .env"
-	pipenv shell
+	poetry shell
 
-utils:
-	node -v
-	npm -v
-	npm install -g commitizen cz-conventional-changelog conventional-changelog-cli
+cleanDist:
+	@$(RM) -r dist
 
-tagVersionHelp:
-	@echo "-> please check to change version, now is ${ENV_DIST_VERSION}"
-	@echo "change check at ${ENV_ROOT}/Makefile:4"
-	@echo "change check at ${ENV_MODULE_MANIFEST}:3"
-	@echo "change check at ${ENV_ROOT}/tudm.py:27"
-	@echo ""
-	@echo "please check all file above!"
-	@echo ""
+cleanLogs:
+	@$(RM) -r logs
 
-tagBefore: tagVersionHelp
-	conventional-changelog -i CHANGELOG.md -s  --skip-unstable
-	@echo ""
-	@echo "place check all file, then add git tag to push!"
+cleanAll: cleanDist cleanLogs testCoverageClean
+	@echo "has clean all"
 
 help:
 	@echo "unity makefile template"
-	@echo " module project  name: ${ENV_PROJECT_NAME}"
 	@echo " module folder   path: ${ENV_MODULE_FOLDER}"
 	@echo " module version    is: ${ENV_DIST_VERSION}"
 	@echo " module manifest path: ${ENV_MODULE_MANIFEST}"
 	@echo ""
-	@echo "  first need init utils"
-	@echo "$$ make utils               ~> npm install git cz"
-	@echo "  1. add change log, then write git commit , replace [ git commit -m ] to [ git cz ]"
-	@echo "  2. generate CHANGELOG.md doc: https://github.com/commitizen/cz-cli#conventional-commit-messages-as-a-global-utility"
-	@echo ""
-	@echo "  then you can generate CHANGELOG.md as"
-	@echo "$$ make tagVersionHelp      ~> print version when make tageBefore will print again"
-	@echo "$$ make tagBefore           ~> generate CHANGELOG.md and copy to module folder"
 	@echo ""
 	@echo "This project use python 3.9.+"
+	@echo "= if poetry install error try use"
+	@echo "$$ pyenv shell ${ENV_PYTHON_ENV_VERSION}"
+	@echo "or target version to fix"
+	@echo ""
 	@echo "------    ------"
 	@echo "- first run you can use make init to check environment"
 	@echo "------    ------"
 	@echo ""
 	@echo "$$ make init                     ~> init this project"
-	@echo "$$ make rmEnv                    ~> remove pipenv environment"
-	@echo "$$ make env                      ~> show env of this project"
-	@echo "$$ make graph                    ~> show graph of this project"
-	@echo "$$ make shell                    ~> into shell, out use exit or ctrl-D"
 	@echo ""
-	@echo "$$ make runMain                  ~> pipenv run main"
-	@echo "$$ make runTest                  ~> pipenv run test_main"
-
-all:
-	@echo "~> start base info"
+	@echo "$$ make dep                      ~> run install dependencies"
+	@echo "$$ make depFix                   ~> run change dependencies to lock"
+	@echo "$$ make up                       ~> run update dependencies"
+	@echo "$$ make test                     ~> run test case"
+	@echo "$$ make testCoverage             ~> run test case with coverage"
+	@echo "$$ make ci                       ~> run ci check"
+	@echo ""
