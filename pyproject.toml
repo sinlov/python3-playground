@@ -12,7 +12,7 @@ python = "3.11.7"
 requests = "*"
 urllib3 = ">=1.26.5"
 Pygments = ">=2.7.4"
-gevent = "==23.9.0"
+gevent = "==24.2.1"
 psutil = "==5.9.8"
 
 [tool.poetry.dev-dependencies]

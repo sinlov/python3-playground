@@ -8,6 +8,12 @@
 - run on [python-poetry.org](https://python-poetry.org/docs/)
 - now under `pyenv shell 3.11.7`
 
+### Warning
+
+- this project use [gevent](https://www.gevent.org/), but `gevent` [not support windows 10 x64](https://github.com/gevent/gevent/issues/1918)
+
+```bash
+
 ### poetry 使用镜像源
 
 - see [https://python-poetry.org/docs/repositories/#disabling-the-pypi-repository](https://python-poetry.org/docs/repositories/#disabling-the-pypi-repository)
