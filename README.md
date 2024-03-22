@@ -1,3 +1,8 @@
+[![ci](https://github.com/sinlov/python3-playground/actions/workflows/ci.yml/badge.svg)](https://github.com/sinlov/python3-playground/actions/workflows/ci.yml)
+
+[![GitHub license](https://img.shields.io/github/license/sinlov/python3-playground)](https://github.com/sinlov/python3-playground)
+[![GitHub latest SemVer tag)](https://img.shields.io/github/v/tag/sinlov/python3-playground)](https://github.com/sinlov/python3-playground/tags)
+[![GitHub release)](https://img.shields.io/github/v/release/sinlov/python3-playground)](https://github.com/sinlov/python3-playground/releases)
 
 # this is python3 playground
 
