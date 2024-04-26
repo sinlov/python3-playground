@@ -3,10 +3,10 @@
 # each tag change this
 ENV_DIST_VERSION := 1.0.0
 
-ENV_PROJECT_NAME ?= python3-playground
+ENV_PROJECT_NAME ?=python3-playground
 ENV_CHECK_FILES=src/ tests/
 ENV_BLACK_OPTS=
-py_warn = PYTHONDEVMODE=1
+py_warn =PYTHONDEVMODE=1
 ENV_PYTHON_ENV_VERSION =3.11.7
 
 ifeq ($(OS),Windows_NT)
@@ -46,6 +46,13 @@ env:
 	@echo ""
 	@echo "- now python version is -"
 	@python -V
+	@echo "- this project manager by poetry -"
+ifeq ($(OS),Windows_NT)
+	@echo ""
+	@echo "windows install as:"
+	@echo "-> scoop install main/poetry"
+	@echo ""
+endif
 	@echo "= if poetry install error try use"
 	@echo "$$ pyenv shell ${ENV_PYTHON_ENV_VERSION}"
 	@echo "or target version to fix"
@@ -70,7 +77,7 @@ depCheck:
 	$(info check: poetry env info)
 	@poetry env info
 	$(info check: poetry env list)
-	@poetry env list
+	poetry env list
 	@poetry check
 
 depLock:
@@ -134,8 +141,16 @@ cleanLogs:
 cleanAll: cleanDist cleanLogs testCoverageClean testClean
 	@echo "has clean all"
 
-help:
-	@echo "makefile help"
+helpProjectRoot:
+	@echo "Help: Project root Makefile"
+ifeq ($(OS),Windows_NT)
+	@echo ""
+	@echo "warning: other install make cli tools has bug"
+	@echo " run will at make tools version 4.+"
+	@echo "windows use this kit must install tools blow:"
+	@echo "-> scoop install main/make"
+	@echo ""
+endif
 	@echo " module folder   path: ${ENV_MODULE_FOLDER}"
 	@echo " module version    is: ${ENV_DIST_VERSION}"
 	@echo " module manifest path: ${ENV_MODULE_MANIFEST}"
@@ -159,3 +174,7 @@ help:
 	@echo "$$ make testCoverage             ~> run test case with coverage"
 	@echo "$$ make ci                       ~> run ci check"
 	@echo ""
+
+help: helpProjectRoot
+	@echo ""
+	@echo "-- more info see Makefile"

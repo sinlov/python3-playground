@@ -13,6 +13,11 @@
 *.user   text eol=crlf
 *.asset  text eol=lf
 *.json  test eol=lf
+*.js  test eol=lf
+*.ts  test eol=lf
+*.yml  test eol=lf
+*.yaml  test eol=lf
+*.vue  test eol=lf
 *.golden  test eol=lf
 *.mod  test eol=lf
 *.sum  test eol=lf
