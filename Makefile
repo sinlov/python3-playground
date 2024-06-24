@@ -35,6 +35,7 @@ endif
 ENV_MODULE_FOLDER ?= ${ENV_ROOT}
 ENV_MODULE_MANIFEST = ${ENV_ROOT}/package.json
 
+.PHONY: env
 env:
 	@echo ------- start show env ---------
 	@echo ""
@@ -61,18 +62,22 @@ endif
 	@echo ""
 	@echo ------- end  show env ---------
 
+.PHONY: up
 up:
 	@poetry env info
 	@poetry update
 
+.PHONY: dep
 dep:
 	@poetry env info
 	@poetry install
 
+.PHONY: depFix
 depFix:
 	@poetry env info
 	@poetry lock --no-update
 
+.PHONY: depCheck
 depCheck:
 	$(info check: poetry env info)
 	@poetry env info
@@ -80,67 +85,86 @@ depCheck:
 	poetry env list
 	@poetry check
 
+.PHONY: depLock
 depLock:
 	@poetry lock
 
+.PHONY: init
 init: dep depFix
 	@poetry about
 	@echo "=> just init finish this project by poetry"
 
+.PHONY: style
 style: dep
 	@poetry env info
 	@poetry run ruff format $(ENV_CHECK_FILES)
 
+.PHONY: check
 check:
 	@poetry env info
 	@poetry run ruff check $(ENV_CHECK_FILES)
 
+.PHONY: test
 test: dep
 	${py_warn} poetry run pytest
 
+.PHONY: testWithWarn
 testWithWarn:
 	${py_warn} poetry run pytest -W error::UserWarning
 
+.PHONY: testDisableWarn
 testDisableWarn:
 	${py_warn} poetry run pytest --disable-warnings
 
+.PHONY: testCoverage
 testCoverage:
 	${py_warn} poetry run pytest --cov-append --cov-report=html --cov=./
 
+.PHONY: testClean
 testClean:
 	@$(RM) -r .pytest_cache/
 
+.PHONY: testCoverageClean
 testCoverageClean:
 	@$(RM) .coverage
 	@$(RM) .coverage.*
 	@$(RM) -r htmlcov/
 
+.PHONY: ci
+ci: check test
+
+.PHONY: build
 build: dep
 	@poetry build
 
+.PHONY: buildOnly
 buildOnly:
 	@poetry build
 
+.PHONY: publish
 publish: dep
 	@poetry publish --build
 
-ci: check test
-
+.PHONY: shell
 shell:
 	@echo "-> in poetry shell"
 	@echo ""
 	@echo "and will load environment file as .env"
 	poetry shell
 
+.PHONY: clean
 cleanDist:
 	@$(RM) -r dist
 
+.PHONY: cleanLogs
 cleanLogs:
 	@$(RM) -r logs
 
+.PHONY: cleanAll
 cleanAll: cleanDist cleanLogs testCoverageClean testClean
 	@echo "has clean all"
 
+.PHONY: helpProjectRoot
 helpProjectRoot:
 	@echo "Help: Project root Makefile"
 ifeq ($(OS),Windows_NT)
@@ -175,6 +199,7 @@ endif
 	@echo "$$ make ci                       ~> run ci check"
 	@echo ""
 
+.PHONY: help
 help: helpProjectRoot
 	@echo ""
 	@echo "-- more info see Makefile"
