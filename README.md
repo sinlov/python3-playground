@@ -10,7 +10,7 @@
 
 ## env
 
-- run on [python-poetry.org](https://python-poetry.org/docs/)
+- run on [python-poetry.org](https://python-poetry.org/docs/) as version `2.1.2`
 - now under `pyenv shell 3.11.7`
 
 ### Warning

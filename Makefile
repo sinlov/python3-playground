@@ -59,6 +59,7 @@ endif
 	@echo "or target version to fix"
 	@echo "- show poetry env list -"
 	@poetry env list
+	@poetry --version
 	@echo ""
 	@echo ------- end  show env ---------
 
@@ -75,7 +76,7 @@ dep:
 .PHONY: depFix
 depFix:
 	@poetry env info
-	@poetry lock --no-update
+	@poetry lock
 
 .PHONY: depCheck
 depCheck:

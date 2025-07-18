@@ -15,7 +15,7 @@ Pygments = ">=2.7.4"
 gevent = "==24.2.1"
 psutil = "==5.9.8"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 Faker = "==24.3.0"
 httpie = "*"
 pytest = "==7.2.1"
