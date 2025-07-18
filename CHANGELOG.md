@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.0.1](https://github.com/sinlov/python3-playground/compare/v1.0.0...v1.0.1) (2025-07-18)
+
+### 📝 Documentation
+
+* add test code run at README.md ([54e3d2d7](https://github.com/sinlov/python3-playground/commit/54e3d2d75cf95cd288a2b442ab971595f82ad377))
+
+### 👷‍ Build System
+
+* update poetry to 2.1.2 and update dependencies ([7273fa5e](https://github.com/sinlov/python3-playground/commit/7273fa5e51f0007a23427855375dc06880d5b9a4))
+
+* add PHONY config at makefile ([e322e5b2](https://github.com/sinlov/python3-playground/commit/e322e5b29ea35cd2393595c39e7782496a111b0d))
+
+* update make task ([203a3a96](https://github.com/sinlov/python3-playground/commit/203a3a96e28bc611d428e0459ded64bfd1cb17df))
+
+* use ruff https://github.com/astral-sh/ruff to management code style ([a592f46e](https://github.com/sinlov/python3-playground/commit/a592f46e808c8727abbb9760d5e6a018e1bf9400))
+
+* change poetry source config and update make task ([ac6dbaf0](https://github.com/sinlov/python3-playground/commit/ac6dbaf07e15263e900fcf944b2e13cd4d5be9e5))
+
 ## 1.0.0 (2024-03-22)
 
 ### 🐛 Bug Fixes
