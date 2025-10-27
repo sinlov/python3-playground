@@ -39,11 +39,11 @@ jobs:
     name: version
     uses: ./.github/workflows/version.yml
 
-  python-poetry:
-    name: python-poetry
+  python-uv:
+    name: python-uv
     needs:
       - version
-    uses: ./.github/workflows/python-poetry.yml
+    uses: ./.github/workflows/python-uv.yml
     secrets: inherit
 
   deploy-tag:

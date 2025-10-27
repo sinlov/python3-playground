@@ -1,0 +1,57 @@
+# This workflow will install Python dependencies, run tests and lint with uv
+# For more information see: https://docs.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: python-uv
+
+on:
+  workflow_call: # https://docs.github.com/actions/using-workflows/reusing-workflows#using-inputs-and-secrets-in-a-reusable-workflow
+
+jobs:
+  build:
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.11.7"
+        uv-version:
+          - "latest"
+        os:
+          - ubuntu-latest
+          - macos-latest
+          # - windows-latest
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        version: ${{ matrix.uv-version }}
+
+    - uses: actions/cache@v4
+      name: Define a cache for the virtual environment based on the dependencies lock file
+      with:
+        path: ./.venv
+        key: venv-${{ hashFiles('uv.lock') }}
+
+    - name: Install dependencies
+      run: |
+        uv sync
+
+    - name: Run python lint
+      run: |
+        uv run ruff check src/ tests/
+
+    - name: Run tests
+      run: |
+        # Run custom `test` command defined in the `[scripts]` block of unittest
+        uv run pytest
