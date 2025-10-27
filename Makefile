@@ -1,5 +1,3 @@
-.PHONY: test check clean build dist all
-
 # each tag change this
 ENV_DIST_VERSION := 1.0.0
 
@@ -47,21 +45,22 @@ env:
 	@echo ""
 	@echo "- now python version is -"
 	@python -V
-	@echo "- this project manager by poetry -"
+	@echo "- this project manager by uv -"
 ifeq ($(OS),Windows_NT)
 	@echo ""
 	@echo "windows install as:"
-	@echo "-> scoop install main/poetry"
+	@echo "-> scoop install main/uv"
 	@echo ""
 endif
 	@echo "= if poetry install error try use"
 	@echo "$$ pyenv shell ${ENV_PYTHON_ENV_VERSION}"
 	@echo "or target version to fix"
-	@echo "- show poetry env list -"
-	@poetry env list
-	@poetry --version
+	@echo "- start show uv info -"
+	@uv --version
+	@uv tool dir --color never
+	@uv tool list --color never
 	@echo ""
-	@echo ------- end  show env ---------
+	@echo "- end show uv info -"
 
 .PHONY: up
 up:
@@ -73,25 +72,25 @@ dep:
 	@poetry env info
 	@poetry install
 
-.PHONY: depFix
-depFix:
+.PHONY: dep.fix
+dep.fix:
 	@poetry env info
 	@poetry lock
 
-.PHONY: depCheck
-depCheck:
+.PHONY: dep.check
+dep.check:
 	$(info check: poetry env info)
 	@poetry env info
 	$(info check: poetry env list)
 	poetry env list
 	@poetry check
 
-.PHONY: depLock
-depLock:
+.PHONY: dep.lock
+dep.lock:
 	@poetry lock
 
 .PHONY: init
-init: dep depFix
+init: dep dep.fix
 	@poetry about
 	@echo "=> just init finish this project by poetry"
 
@@ -109,24 +108,24 @@ check:
 test: dep
 	${py_warn} poetry run pytest
 
-.PHONY: testWithWarn
-testWithWarn:
+.PHONY: test.with.warn
+test.with.warn:
 	${py_warn} poetry run pytest -W error::UserWarning
 
-.PHONY: testDisableWarn
-testDisableWarn:
+.PHONY: test.disable.warn
+test.disable.warn:
 	${py_warn} poetry run pytest --disable-warnings
 
-.PHONY: testCoverage
-testCoverage:
+.PHONY: test.coverage
+test.coverage:
 	${py_warn} poetry run pytest --cov-append --cov-report=html --cov=./
 
-.PHONY: testClean
-testClean:
+.PHONY: test.clean
+test.clean:
 	@$(RM) -r .pytest_cache/
 
-.PHONY: testCoverageClean
-testCoverageClean:
+.PHONY: test.coverage.clean
+test.coverage.clean:
 	@$(RM) .coverage
 	@$(RM) .coverage.*
 	@$(RM) -r htmlcov/
@@ -138,8 +137,8 @@ ci: check test
 build: dep
 	@poetry build
 
-.PHONY: buildOnly
-buildOnly:
+.PHONY: build.only
+build.only:
 	@poetry build
 
 .PHONY: publish
@@ -153,16 +152,16 @@ shell:
 	@echo "and will load environment file as .env"
 	poetry shell
 
-.PHONY: clean
-cleanDist:
+.PHONY: clean.dist
+clean.dist:
 	@$(RM) -r dist
 
-.PHONY: cleanLogs
-cleanLogs:
+.PHONY: clean.logs
+clean.logs:
 	@$(RM) -r logs
 
-.PHONY: cleanAll
-cleanAll: cleanDist cleanLogs testCoverageClean testClean
+.PHONY: clean.all
+clean.all: clean.dist clean.logs test.coverage.clean test.clean
 	@echo "has clean all"
 
 .PHONY: helpProjectRoot
@@ -193,10 +192,10 @@ endif
 	@echo "$$ make init                     ~> init this project"
 	@echo ""
 	@echo "$$ make dep                      ~> run install dependencies"
-	@echo "$$ make depFix                   ~> run change dependencies to lock"
+	@echo "$$ make dep.fix                   ~> run change dependencies to lock"
 	@echo "$$ make up                       ~> run update dependencies"
 	@echo "$$ make test                     ~> run test case"
-	@echo "$$ make testCoverage             ~> run test case with coverage"
+	@echo "$$ make test.coverage             ~> run test case with coverage"
 	@echo "$$ make ci                       ~> run ci check"
 	@echo ""
 
