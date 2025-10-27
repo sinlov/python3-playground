@@ -2,10 +2,11 @@
 ENV_DIST_VERSION := 1.0.0
 
 ENV_PROJECT_NAME ?=python3-playground
+
 ENV_CHECK_FILES=src/ tests/
 ENV_BLACK_OPTS=
-py_warn =PYTHONDEVMODE=1
 ENV_PYTHON_ENV_VERSION =3.11.7
+py_warn =PYTHONDEVMODE=1
 
 ifeq ($(OS),Windows_NT)
  PLATFORM=Windows
@@ -64,61 +65,53 @@ endif
 
 .PHONY: up
 up:
-	@poetry env info
-	@poetry update
+	@uv sync --upgrade
 
 .PHONY: dep
 dep:
-	@poetry env info
-	@poetry install
+	@uv sync
 
 .PHONY: dep.fix
 dep.fix:
-	@poetry env info
-	@poetry lock
+	@uv lock
 
 .PHONY: dep.check
 dep.check:
-	$(info check: poetry env info)
-	@poetry env info
-	$(info check: poetry env list)
-	poetry env list
-	@poetry check
+	$(info check: uv sync --dry-run)
+	@uv sync --dry-run
+	@uv lock --check
 
 .PHONY: dep.lock
 dep.lock:
-	@poetry lock
+	@uv lock
 
 .PHONY: init
-init: dep dep.fix
-	@poetry about
-	@echo "=> just init finish this project by poetry"
+init: dep
+	@echo "=> just init finish this project by uv"
 
 .PHONY: style
 style: dep
-	@poetry env info
-	@poetry run ruff format $(ENV_CHECK_FILES)
+	@uv run ruff format $(ENV_CHECK_FILES)
 
 .PHONY: check
 check:
-	@poetry env info
-	@poetry run ruff check $(ENV_CHECK_FILES)
+	@uv run ruff check $(ENV_CHECK_FILES)
 
 .PHONY: test
 test: dep
-	${py_warn} poetry run pytest
+	${py_warn} uv run pytest
 
 .PHONY: test.with.warn
 test.with.warn:
-	${py_warn} poetry run pytest -W error::UserWarning
+	${py_warn} uv run pytest -W error::UserWarning
 
 .PHONY: test.disable.warn
 test.disable.warn:
-	${py_warn} poetry run pytest --disable-warnings
+	${py_warn} uv run pytest --disable-warnings
 
 .PHONY: test.coverage
 test.coverage:
-	${py_warn} poetry run pytest --cov-append --cov-report=html --cov=./
+	${py_warn} uv run pytest --cov-append --cov-report=html --cov=./
 
 .PHONY: test.clean
 test.clean:
@@ -135,22 +128,22 @@ ci: check test
 
 .PHONY: build
 build: dep
-	@poetry build
+	@uv build
 
 .PHONY: build.only
 build.only:
-	@poetry build
+	@uv build
 
 .PHONY: publish
 publish: dep
-	@poetry publish --build
+	@uv publish --build
 
 .PHONY: shell
 shell:
-	@echo "-> in poetry shell"
+	@echo "-> activate uv virtual environment"
 	@echo ""
-	@echo "and will load environment file as .env"
-	poetry shell
+	@echo "run: source .venv/bin/activate"
+	@echo "or: uv run python"
 
 .PHONY: clean.dist
 clean.dist:
@@ -189,14 +182,14 @@ endif
 	@echo "- first run you can use make init to check environment"
 	@echo "------    ------"
 	@echo ""
-	@echo "$$ make init                     ~> init this project"
+	@echo "$$ make init                      ~> init this project"
 	@echo ""
-	@echo "$$ make dep                      ~> run install dependencies"
+	@echo "$$ make dep                       ~> run install dependencies"
 	@echo "$$ make dep.fix                   ~> run change dependencies to lock"
-	@echo "$$ make up                       ~> run update dependencies"
-	@echo "$$ make test                     ~> run test case"
+	@echo "$$ make up                        ~> run update dependencies"
+	@echo "$$ make test                      ~> run test case"
 	@echo "$$ make test.coverage             ~> run test case with coverage"
-	@echo "$$ make ci                       ~> run ci check"
+	@echo "$$ make ci                        ~> run ci check"
 	@echo ""
 
 .PHONY: help
