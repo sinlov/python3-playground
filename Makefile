@@ -65,10 +65,12 @@ endif
 
 .PHONY: up
 up:
+	@uv sync --upgrade --group dev
 	@uv sync --upgrade
 
 .PHONY: dep
 dep:
+	@uv sync --group dev
 	@uv sync
 
 .PHONY: dep.fix

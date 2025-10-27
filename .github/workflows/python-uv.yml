@@ -45,6 +45,7 @@ jobs:
 
     - name: Install dependencies
       run: |
+        uv sync --group dev
         uv sync
 
     - name: Run python lint

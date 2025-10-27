@@ -540,7 +540,7 @@ dependencies = [
     { name = "urllib3" },
 ]
 
-[package.optional-dependencies]
+[package.dev-dependencies]
 dev = [
     { name = "faker" },
     { name = "httpie" },
@@ -551,18 +551,21 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "faker", marker = "extra == 'dev'", specifier = "==37.3.0" },
     { name = "gevent", specifier = "==24.2.1" },
-    { name = "httpie", marker = "extra == 'dev'" },
     { name = "psutil", specifier = "==5.9.8" },
     { name = "pygments", specifier = ">=2.7.4" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = "==7.2.1" },
-    { name = "pytest-cov", marker = "extra == 'dev'", specifier = "==4.1.0" },
     { name = "requests" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.3.4" },
     { name = "urllib3", specifier = ">=1.26.5" },
 ]
-provides-extras = ["dev"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "faker", specifier = "==37.3.0" },
+    { name = "httpie" },
+    { name = "pytest", specifier = "==7.2.1" },
+    { name = "pytest-cov", specifier = "==4.1.0" },
+    { name = "ruff", specifier = ">=0.3.4" },
+]
 
 [[package]]
 name = "pycparser"
