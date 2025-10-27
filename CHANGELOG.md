@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [convention-change-log](https://github.com/convention-change/convention-change-log) for commit guidelines.
 
+## [1.0.2](https://github.com/sinlov/python3-playground/compare/v1.0.1...v1.0.2) (2025-10-28)
+
+### 🐛 Bug Fixes
+
+* switch from poetry to uv for dependency management ([a3eb9931](https://github.com/sinlov/python3-playground/commit/a3eb993127156497555de03581ce10db9982844c))
+
+### 📝 Documentation
+
+* add contributor guidelines and code of conduct ([745258f7](https://github.com/sinlov/python3-playground/commit/745258f7ea82fc4ebe6f7cd9528c6063250d484c))
+
+### ♻ Refactor
+
+* migrate from poetry to uv for dependency management ([05baa1e4](https://github.com/sinlov/python3-playground/commit/05baa1e4bd62497c8cab3d62ae6f7d4e9fe84c9b))
+
+### 👷‍ Build System
+
+* update dependency management to use uv groups ([c3d8971e](https://github.com/sinlov/python3-playground/commit/c3d8971e0b218820c0acf7015b480678777f5c65))
+
+* replace poetry with uv for python dependency management ([d9ddbf9a](https://github.com/sinlov/python3-playground/commit/d9ddbf9a38bff967ceaa5c72eae8124427305fb1))
+
+* update commands to use uv instead of poetry ([d3729cf5](https://github.com/sinlov/python3-playground/commit/d3729cf58ffb95b5734b9a26b976a91327b9b9ad))
+
+* update Faker dependency and add test file ([c4634cc7](https://github.com/sinlov/python3-playground/commit/c4634cc761bd949e66dfb295c9acd29c847f14af))
+
+* bump abatilo/actions-poetry from 2 to 4 ([546ebb45](https://github.com/sinlov/python3-playground/commit/546ebb45db9c8a4a42706e485b8e97d159988097))
+
+* bump actions/setup-python from 4 to 5 ([269a29ea](https://github.com/sinlov/python3-playground/commit/269a29ea7a84423d13371de2c94adbf072f27d3f))
+
+* bump convention-change/conventional-version-check ([d54832b1](https://github.com/sinlov/python3-playground/commit/d54832b13a9f7faf18000c5c2abea1ab1352e9a2))
+
+* bump actions/cache from 3 to 4 ([dce91d99](https://github.com/sinlov/python3-playground/commit/dce91d99465d9ea6abf05b5a27088cdcdad92340))
+
 ## [1.0.1](https://github.com/sinlov/python3-playground/compare/v1.0.0...v1.0.1) (2025-07-18)
 
 ### 📝 Documentation
