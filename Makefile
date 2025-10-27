@@ -53,8 +53,7 @@ ifeq ($(OS),Windows_NT)
 	@echo "-> scoop install main/uv"
 	@echo ""
 endif
-	@echo "= if poetry install error try use"
-	@echo "$$ pyenv shell ${ENV_PYTHON_ENV_VERSION}"
+	@echo "= if uv install error try use"
 	@echo "or target version to fix"
 	@echo "- start show uv info -"
 	@uv --version
@@ -176,8 +175,7 @@ endif
 	@echo ""
 	@echo ""
 	@echo "This project use python 3.9.+"
-	@echo "= if poetry install error try use"
-	@echo "$$ pyenv shell ${ENV_PYTHON_ENV_VERSION}"
+	@echo "= if uv install error try use"
 	@echo "or target version to fix"
 	@echo ""
 	@echo "------    ------"
