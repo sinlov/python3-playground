@@ -9,6 +9,6 @@ class TestFoo(unittest.TestCase):
         self.assertEqual(True, True)
         self.assertGreater(1, 0)
         faker = Faker('zh_CN')
-        self.assertNotEquals("", faker.name())
+        self.assertNotEqual("", faker.name())
         pass
     pass
