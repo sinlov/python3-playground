@@ -6,14 +6,23 @@ logs/
 # testData folder
 test[Dd]ata/
 
+
 ### Pyinstall
 
 /build/
 /dist/
 
+### visual studio
+
+.vs/
+
 ### vscode
 
-/.vscode/
+/.vscode/*
+!/.vscode/extensions.json
+!/.vscode/settings.json
+!/.vscode/launch.json
+
 
 ### Python template
 

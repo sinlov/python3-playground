@@ -19,45 +19,13 @@ Please read [Contributor Guide](.github/CONTRIBUTING_DOC/CONTRIBUTING.md) for mo
 
 请阅读有关 [贡献者指南](.github/CONTRIBUTING_DOC/zh-CN/CONTRIBUTING.md) 以获取更多如何入门的信息
 
-## env
+## dev document
 
-- run on [python uv](https://docs.astral.sh/uv/) as version `0.9.2`
-- now under `pyenv shell 3.11.7`
-- style check by [ruff](https://github.com/charliermarsh/ruff)
+- see [dev document](docs/dev.md)
 
 ### Warning
 
 - this project use [gevent](https://www.gevent.org/), but `gevent` [not support windows 10 x64](https://github.com/gevent/gevent/issues/1918)
-
-## dev
-
-```bash
-# show help
-$ make help
-
-# check env
-$ make env
-
-# install dependencies
-$ make dep
-
-# run ci pipeline
-$ make ci
-
-# fix code style
-$ make style
-
-# check style
-$ make check
-```
-
-## test
-
-### run all test
-
-```bash
-$ make test
-```
 
 ### simple test run
 
