@@ -23,7 +23,7 @@ dev = [
     "mdformat==1.0.0",
     "mdformat-gfm==1.0.0",
     "ruff>=0.3.4",
-    "commit-check>=2.6.0",
+    "gitlint==0.19.1",
 ]
 
 [project.scripts]

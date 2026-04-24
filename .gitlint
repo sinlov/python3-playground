@@ -1,0 +1,57 @@
+### GENERAL CONFIG  ###
+[general]
+# Ignore rules, reference them by id or name (comma-separated)
+ignore=title-trailing-punctuation
+
+# verbosity should be a value between 1 and 3
+verbosity = 2
+
+# By default gitlint will ignore certain commits
+ignore-merge-commits=true
+ignore-revert-commits=true
+ignore-fixup-commits=true
+ignore-fixup-amend-commits=true
+ignore-squash-commits=true
+
+# Ignore any data sent to gitlint via stdin
+ignore-stdin=true
+
+# Fetch additional meta-data from the local repository when manually passing a
+# commit message to gitlint via stdin or --commit-msg. Disabled by default.
+staged=false
+
+# Whether to use Python `search` instead of `match` semantics in rules
+regex-style-search=true
+
+# Enable contrib rules (comma-separated list)
+contrib=contrib-title-conventional-commits
+
+### RULE CONFIGURATION ###
+[title-max-length]
+line-length=80
+
+[title-min-length]
+min-length=5
+
+[title-must-not-contain-word]
+# Comma-separated list of words that should not occur in
+# the commit message title (case-insensitive).
+words=foo,bar,baz
+
+[ignore-by-author-name]
+#regex=(.*)dependabot(.*)
+ignore=dependabot(.*),renovate(.*),copilot(.*)
+
+[body-is-missing]
+# Ignore this rule on merge commits (default=true)
+ignore-merge-commits=false
+
+[body-max-line-length]
+line-length=360
+
+[body-min-length]
+min-length=4
+
+### CONTRIB RULES ###
+[contrib-title-conventional-commits]
+types = feat,fix,docs,style,refactor,perf,test,chore,build,ci,revert

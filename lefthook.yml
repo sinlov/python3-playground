@@ -43,16 +43,16 @@
 
 colors: false
 
-output:
-  - meta # Print lefthook version
-  - summary # Print summary block (successful and failed steps)
-  - empty_summary # Print summary heading when there are no steps to run
-  - success # Print successful steps
-  - failure # Print failed steps printing
-  - execution # Print any execution logs
-  - execution_out # Print execution output
-  - execution_info # Print `EXECUTE > ...` logging
-  - skips # Print "skip" (i.e. no files matched)
+# output:
+#   - meta # Print lefthook version
+#   - summary # Print summary block (successful and failed steps)
+#   - empty_summary # Print summary heading when there are no steps to run
+#   - success # Print successful steps
+#   - failure # Print failed steps printing
+#   - execution # Print any execution logs
+#   - execution_out # Print execution output
+#   - execution_info # Print `EXECUTE > ...` logging
+#   - skips # Print "skip" (i.e. no files matched)
 
 pre-commit:
   parallel: true
@@ -84,11 +84,19 @@ pre-commit:
       glob: '{!(package)*.json,*.code-snippets,.!(browserslist)*rc}'
       # glob: '*.{json}'
 
+# prepare-commit-msg:
+#   commands:
+#     pre-commitlint:
+#       run: uv run pre-commit install --hook-type pre-commit --hook-type commit-msg
+#       # run: commit-check --no-banner --hook prepare-commit-msg --format json $1
+
 commit-msg:
   commands:
-    commitlint:
-      run: uv run commit-check --message
-      # run: commit-check --message --format json
+    commit-lint:
+      run: uv run gitlint
+      # run: uv run gitlint --silent
+      # run: uv run commit-check --no-banner --message
+      # run: commit-check --no-banner --message --format json $1
 
 pre-push:
   commands:
@@ -100,4 +108,4 @@ post-merge:
     install:
       run: uv sync
     lefthook-install:
-      run: lefthook install
+      run: lefthook install --force

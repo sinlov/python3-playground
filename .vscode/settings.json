@@ -1,7 +1,4 @@
 {
-  "i18n-ally.localesPaths": [
-    "src/locales"
-  ],
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
@@ -11,7 +8,7 @@
     "*.tsx": "$(capture).test.ts, $(capture).test.tsx, $(capture).spec.ts, $(capture).spec.tsx,$(capture).d.ts",
     "*.env": "$(capture).env.*",
     "pyproject.toml": "uv.lock,poetry.lock,Pipfile.lock,poetry.toml,Pipfile,pyproject.toml,setup.py,setup.cfg,requirements.txt,requirements-dev.txt,requirements-test.txt,requirements-docs.txt,requirements-build.txt,requirements-optional.txt,requirements-minimum.txt,requirements-full.txt",
-    "ruff.toml": "commit-check.toml",
+    "ruff.toml": ".gitlint,.cz.toml,.pre-commit-config.yaml,commit-check.toml",
     "package.json": "package-lock.json,pnpm-lock.yaml,pnpm-workspace.yaml,.gitpod.yml,.npmrc,.npmignore,.browserslistrc,.node-version,.tazerc.json",
     "eslint.config.*": ".eslintignore,.prettierignore,.stylelintignore,.commitlintrc.*,.prettierrc.*,stylelint.config.*,.lintstagedrc.mjs,cspell.json,.oxlintrc.json,.oxfmtrc.json",
     "tailwind.config.mjs": "postcss.*"
