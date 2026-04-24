@@ -20,7 +20,10 @@ dev = [
     "httpie",
     "pytest==7.2.1",
     "pytest-cov==4.1.0",
+    "mdformat==1.0.0",
+    "mdformat-gfm==1.0.0",
     "ruff>=0.3.4",
+    "commit-check>=2.6.0",
 ]
 
 [project.scripts]
