@@ -5,7 +5,7 @@ description = "playground of python3"
 authors = [{name = "sinlov", email = "sinlovgmppt@gmail.com"}]
 license = {text = "MIT"}
 readme = "README.md"
-requires-python = ">=3.11.7"
+requires-python = "==3.11.7"
 dependencies = [
     "requests",
     "urllib3>=1.26.5",

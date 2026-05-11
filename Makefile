@@ -62,19 +62,10 @@ endif
 	@echo ""
 	@echo "- end show uv info -"
 
-.PHONY: up
-up:
-	@uv sync --upgrade --group dev
-	@uv sync --upgrade
-
 .PHONY: dep
 dep:
 	@uv sync --group dev
 	@uv sync
-
-.PHONY: dep.fix
-dep.fix:
-	@uv lock
 
 .PHONY: dep.check
 dep.check:
@@ -82,20 +73,25 @@ dep.check:
 	@uv sync --dry-run
 	@uv lock --check
 
+.PHONY: dep.fix
+dep.fix:
+	@uv lock
+
+.PHONY: dep.up
+dep.up:
+	@uv sync --upgrade --group dev
+	@uv sync --upgrade
+
 .PHONY: dep.lock
 dep.lock:
 	@uv lock
 
-.PHONY: init
-init: dep
-	@echo "=> just init finish this project by uv"
-
-.PHONY: style
-style: dep
+.PHONY: ruff.style
+ruff.style:
 	@uv run ruff format $(ENV_CHECK_FILES)
 
-.PHONY: check
-check:
+.PHONY: ruff.check
+ruff.check:
 	@uv run ruff check $(ENV_CHECK_FILES)
 
 .PHONY: test
@@ -124,9 +120,6 @@ test.coverage.clean:
 	@$(RM) .coverage.*
 	@$(RM) -r htmlcov/
 
-.PHONY: ci
-ci: check test
-
 .PHONY: build
 build: dep
 	@uv build
@@ -139,13 +132,6 @@ build.only:
 publish: dep
 	@uv publish --build
 
-.PHONY: shell
-shell:
-	@echo "-> activate uv virtual environment"
-	@echo ""
-	@echo "run: source .venv/bin/activate"
-	@echo "or: uv run python"
-
 .PHONY: clean.dist
 clean.dist:
 	@$(RM) -r dist
@@ -154,9 +140,45 @@ clean.dist:
 clean.logs:
 	@$(RM) -r logs
 
+.PHONY: clean.ruff
+clean.ruff:
+	@$(RM) -r .ruff_cache/
+
+.PHONY: clean.venv
+clean.venv:
+	@$(RM) -r .venv
+
 .PHONY: clean.all
-clean.all: clean.dist clean.logs test.coverage.clean test.clean
+clean.all: clean.dist clean.logs test.coverage.clean test.clean clean.ruff clean.venv
 	@echo "has clean all"
+
+.PHONY: clean
+clean: clean.dist clean.logs test.coverage.clean test.clean clean.ruff
+
+## task project biz
+
+.PHONY: init
+init: dep
+	@echo "=> just init finish this project by uv"
+
+.PHONY: ci
+ci: export CI=1
+ci: ruff.check test
+
+.PHONY: shell
+shell:
+	@echo "-> activate uv virtual environment"
+	@echo ""
+	@echo "run: source .venv/bin/activate"
+	@echo "or: uv run python"
+
+## run uv scripts
+
+.PHONY: run.show.version
+run.show.version:
+	@uv run show-version
+
+## help
 
 .PHONY: helpProjectRoot
 helpProjectRoot:
@@ -186,10 +208,12 @@ endif
 	@echo ""
 	@echo "$$ make dep                       ~> run install dependencies"
 	@echo "$$ make dep.fix                   ~> run change dependencies to lock"
-	@echo "$$ make up                        ~> run update dependencies"
+	@echo "$$ make dep.up                    ~> run update dependencies"
 	@echo "$$ make test                      ~> run test case"
 	@echo "$$ make test.coverage             ~> run test case with coverage"
 	@echo "$$ make ci                        ~> run ci check"
+	@echo ""
+	@echo "$$ make run.show.version          ~> run show project version"
 	@echo ""
 
 .PHONY: help
