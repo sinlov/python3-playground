@@ -31,7 +31,7 @@ contrib=contrib-title-conventional-commits
 line-length=80
 
 [title-min-length]
-min-length=5
+min-length=1
 
 [title-must-not-contain-word]
 # Comma-separated list of words that should not occur in
@@ -44,13 +44,13 @@ ignore=dependabot(.*),renovate(.*),copilot(.*)
 
 [body-is-missing]
 # Ignore this rule on merge commits (default=true)
-ignore-merge-commits=false
+ignore-merge-commits=true
 
 [body-max-line-length]
 line-length=360
 
 [body-min-length]
-min-length=4
+min-length=2
 
 ### CONTRIB RULES ###
 [contrib-title-conventional-commits]

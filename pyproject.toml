@@ -43,5 +43,9 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+log_cli = true
+log_cli_level = "INFO"
+log_level = "INFO"
+addopts = "--capture=no"
 
 [tool.ruff]
